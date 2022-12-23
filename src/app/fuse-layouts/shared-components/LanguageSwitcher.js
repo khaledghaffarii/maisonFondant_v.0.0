@@ -14,7 +14,7 @@ function LanguageSwitcher() {
 	return (
 		<div className='select'>
 			<select
-				style={{ margin: '25px 10px 0px 0px' }}
+				style={{ margin: '25px 10px 0px 0px', padding: 3, borderRadius: 15 }}
 				value={i18n.language}
 				onChange={(e) => {
 					localStorage.setItem('lang', e.target.value);
