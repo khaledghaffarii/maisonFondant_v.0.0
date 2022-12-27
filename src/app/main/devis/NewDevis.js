@@ -100,8 +100,8 @@ class NewDevis extends Component {
             })
           //  console.log("response"+response.data.tva);
             this.setState({ id: response.data._id })
-            
             this.props.history.push(`/devis/imprimer/${response.data._id}`);
+            
         }else{
             this.props.enqueueSnackbar("les réparations doivent être de même client", {
                 variant: 'error',

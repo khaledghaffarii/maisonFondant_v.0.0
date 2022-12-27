@@ -27,57 +27,57 @@ class Table extends React.Component {
 		});
 	};
 
-	getStateColor(etat) {
-		switch (etat) {
-			case REP_STATES.NON_DEPOSED:
-				return FLAT_UI.sunFlower;
-				break;
-			case REP_STATES.DEPOSED_BY_CLIENT:
-				return FLAT_UI.alizarin;
-				break;
-			case REP_STATES.UNDER_DIAGNOSIS:
-				return FLAT_UI.alizarin;
-				break;
-			case REP_STATES.READY_TO_TRANSFER:
-				return FLAT_UI.sunFlower;
-				break;
-			case REP_STATES.DIAGNOSIS_ENDED:
-				return FLAT_UI.sunFlower;
-				break;
-			case REP_STATES.REPARATION_REJECTED:
-				return FLAT_UI.sunFlower;
-				break;
-			case REP_STATES.UNDER_REPARATION:
-				return FLAT_UI.alizarin;
-				break;
-			case REP_STATES.READY_TO_DELIVER:
-				return FLAT_UI.sunFlower;
-				break;
-			case REP_STATES.READY_TO_PICKUP:
-				return FLAT_UI.clouds;
-				break;
-			case REP_STATES.PICKEDUP_BY_CLIENT:
-				return FLAT_UI.clouds;
-				break;
-			case REP_STATES.PICKEDUP_BY_DELIVERY:
-				return FLAT_UI.sunFlower;
-				break;
-			case REP_STATES.REPAIRED:
-				return FLAT_UI.sunFlower;
-				break;
-			case REP_STATES.UNREPAIRED:
-				return FLAT_UI.clouds;
-				break;
-			case REP_STATES.TRANSFER_TO_SPECIALIST:
-				return FLAT_UI.alizarin;
-				break;
-			case REP_STATES.REQUEST_PIECE:
-				return FLAT_UI.sunFlower;
-				break;
-			default:
-				return FLAT_UI.clouds;
-		}
-	}
+	// getStateColor(etat) {
+	// 	switch (etat) {
+	// 		case REP_STATES.NON_DEPOSED:
+	// 			return FLAT_UI.sunFlower;
+	// 			break;
+	// 		case REP_STATES.DEPOSED_BY_CLIENT:
+	// 			return FLAT_UI.alizarin;
+	// 			break;
+	// 		case REP_STATES.UNDER_DIAGNOSIS:
+	// 			return FLAT_UI.alizarin;
+	// 			break;
+	// 		case REP_STATES.READY_TO_TRANSFER:
+	// 			return FLAT_UI.sunFlower;
+	// 			break;
+	// 		case REP_STATES.DIAGNOSIS_ENDED:
+	// 			return FLAT_UI.sunFlower;
+	// 			break;
+	// 		case REP_STATES.REPARATION_REJECTED:
+	// 			return FLAT_UI.sunFlower;
+	// 			break;
+	// 		case REP_STATES.UNDER_REPARATION:
+	// 			return FLAT_UI.alizarin;
+	// 			break;
+	// 		case REP_STATES.READY_TO_DELIVER:
+	// 			return FLAT_UI.sunFlower;
+	// 			break;
+	// 		case REP_STATES.READY_TO_PICKUP:
+	// 			return FLAT_UI.clouds;
+	// 			break;
+	// 		case REP_STATES.PICKEDUP_BY_CLIENT:
+	// 			return FLAT_UI.clouds;
+	// 			break;
+	// 		case REP_STATES.PICKEDUP_BY_DELIVERY:
+	// 			return FLAT_UI.sunFlower;
+	// 			break;
+	// 		case REP_STATES.REPAIRED:
+	// 			return FLAT_UI.sunFlower;
+	// 			break;
+	// 		case REP_STATES.UNREPAIRED:
+	// 			return FLAT_UI.clouds;
+	// 			break;
+	// 		case REP_STATES.TRANSFER_TO_SPECIALIST:
+	// 			return FLAT_UI.alizarin;
+	// 			break;
+	// 		case REP_STATES.REQUEST_PIECE:
+	// 			return FLAT_UI.sunFlower;
+	// 			break;
+	// 		default:
+	// 			return FLAT_UI.clouds;
+	// 	}
+	// }
 	render() {
 		const props = this.props;
 		let actions = [
@@ -163,7 +163,6 @@ class Table extends React.Component {
 				<MaterialTable
 					title={props.title}
 					columns={props.columns}
-					tableRef={props.state.tableRef}
 					data={props.data}
 					style={props.style ? props.style : {}}
 					options={{
@@ -173,19 +172,20 @@ class Table extends React.Component {
 						exportCsv: this.props.exportCsv ? this.props.exportCsv : undefined,
 						selection: props.countryButtonSelect ? false : true,
 						filtering: true,
+						paging: true,
 						exportButton:
 							this.props.exportButton !== undefined
 								? this.props.exportButton
 								: true,
 						columnsButton: true,
 						grouping: false,
-						rowStyle: props.rowStyle
-							? props.rowStyle
-							: (rowData) => {
-									return {
-										backgroundColor: this.getStateColor(rowData.etatLivraison),
-									};
-							  },
+						// rowStyle: props.rowStyle
+						// 	? props.rowStyle
+						// 	: (rowData) => {
+						// 			return {
+						// 				backgroundColor: this.getStateColor(rowData.etatLivraison),
+						// 			};
+						// 	  },
 					}}
 					actions={props.countryButtonSelect ? '' : actions}
 				/>

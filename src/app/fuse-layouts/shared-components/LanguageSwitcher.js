@@ -29,7 +29,6 @@ function LanguageSwitcher() {
 					//console.log("i18next.language"+i18next.language+"t[0].title",navigationConfig[0].children);
 				}}>
 				<option value='en'>English</option>
-
 				<option value='fr'>Français</option>
 			</select>
 		</div>

@@ -1,5 +1,5 @@
 const fuseDark = {
-	50: '#ECECEE',
+	50: '#ffff',
 	100: '#C5C6CB',
 	200: '#9EA1A9',
 	300: '#7D818C',

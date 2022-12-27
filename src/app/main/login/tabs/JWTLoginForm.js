@@ -74,27 +74,27 @@ class JWTLoginForm extends Component {
 	}
 
 	handleSubmit = (e) => {
-		localStorage.clear();
-		localStorage.setItem('AdminOrTeam', this.state.user);
-		const url = env.globalUrl + this.state.user + '-api/v1/auth/login';
-		this.setState({ showError: false });
-		this.Auth.login(url, this.state.email, this.state.password, this.state.user)
-			.then((res) => {
-				if (res === false) {
-					return this.setState({
-						showError: true,
-						message: T.WRONG_USERNAME,
-					});
-				} else {
-					this.setState(() => ({
-						toDashboard: true,
-					}));
-					window.location.reload('/');
-				}
-			})
-			.catch((err) => {
-				this.setState({ showError: true, message: T.WRONG_USERNAME });
-			});
+		// localStorage.clear();
+		// localStorage.setItem('AdminOrTeam', this.state.user);
+		// const url = env.globalUrl + this.state.user + '-api/v1/auth/login';
+		// this.setState({ showError: false });
+		// this.Auth.login(url, this.state.email, this.state.password, this.state.user)
+		// 	.then((res) => {
+		// 		if (res === false) {
+		// 			return this.setState({
+		// 				showError: true,
+		// 				message: T.WRONG_USERNAME,
+		// 			});
+		// 		} else {
+		this.setState(() => ({
+			toDashboard: true,
+		}));
+		//window.location.reload('/');
+		// 	}
+		// })
+		// .catch((err) => {
+		// 	this.setState({ showError: true, message: T.WRONG_USERNAME });
+		// });
 	};
 
 	render() {
@@ -127,12 +127,12 @@ class JWTLoginForm extends Component {
 						type='text'
 						name='email'
 						label={T.USERNAME}
-						validations={{
-							minLength: 4,
-						}}
-						validationErrors={{
-							minLength: T.MIN_USERNAME,
-						}}
+						// validations={{
+						// 	minLength: 4,
+						// }}
+						// validationErrors={{
+						// 	minLength: T.MIN_USERNAME,
+						// }}
 						InputProps={{
 							endAdornment: (
 								<InputAdornment position='end'>
@@ -143,7 +143,7 @@ class JWTLoginForm extends Component {
 							),
 						}}
 						variant='outlined'
-						required
+						//required
 						onChange={this.handleChange}
 					/>
 
@@ -152,12 +152,12 @@ class JWTLoginForm extends Component {
 						type='password'
 						name='password'
 						label={T.PASSWORD}
-						validations={{
-							minLength: 4,
-						}}
-						validationErrors={{
-							minLength: T.MIN_PASS,
-						}}
+						// validations={{
+						// 	minLength: 4,
+						// }}
+						// validationErrors={{
+						// 	minLength: T.MIN_PASS,
+						// }}
 						InputProps={{
 							endAdornment: (
 								<InputAdornment position='end'>
@@ -168,7 +168,7 @@ class JWTLoginForm extends Component {
 							),
 						}}
 						variant='outlined'
-						required
+						//required
 						onChange={this.handleChange}
 					/>
 					{/* <CheckboxFormsy 
@@ -200,7 +200,7 @@ class JWTLoginForm extends Component {
 						color='primary'
 						className='w-full mx-auto mt-16 normal-case'
 						aria-label='LOG IN'
-						disabled={!this.state.isFormValid}
+						//disabled={!this.state.isFormValid}
 						value='legacy'>
 						{T.LOGIN}
 					</Button>
