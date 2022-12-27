@@ -36,10 +36,13 @@ const App = () => {
 	const test = 'hello';
 	const [list, setFinalList] = useState([]);
 	const finalList = { list, setFinalList };
+	const [total, setTotalPrice] = useState([]);
+	const totalPrice = { total, setTotalPrice };
 	useTranslation();
 	return (
 		<AppContext.Provider
 			value={{
+				totalPrice,
 				finalList,
 				routes,
 			}}>

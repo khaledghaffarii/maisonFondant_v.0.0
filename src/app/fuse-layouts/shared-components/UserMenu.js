@@ -91,9 +91,9 @@ function UserMenu(props) {
 						component={Link}
 						to='/login'
 						onClick={() => {
-							// Auth.logout();
+							Auth.logout();
 							// console.log('deconn');
-							// userMenuClose();
+							userMenuClose();
 						}}>
 						<ListItemIcon className='min-w-40'>
 							<Icon>lock</Icon>

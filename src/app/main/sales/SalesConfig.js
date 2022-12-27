@@ -1,4 +1,5 @@
 import Sales from './Sales';
+import SalesEdit from './SalesEdit';
 import SalesNew from './SalesNew';
 
 export const SalesConfig = {
@@ -16,9 +17,9 @@ export const SalesConfig = {
 			path: '/newSales',
 			component: SalesNew,
 		},
-		// {
-		// 	path: '/editProduct/:id',
-		// 	component: ProductEdit,
-		// },
+		{
+			path: '/editSales/:id',
+			component: SalesEdit,
+		},
 	],
 };

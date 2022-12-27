@@ -31,7 +31,7 @@ class SalesNew extends Component {
 			billed: false,
 			productList: [],
 			productOption: '',
-			total_paid: '',
+			total_paid: 0,
 			valueKey: '',
 			delivery_note_sent: false,
 		};
@@ -57,10 +57,10 @@ class SalesNew extends Component {
 		});
 	}
 	handleChipChangeIndexProduct(index, value) {
-		console.log(
-			'🚀 ~ file: SalesNew.js:55 ~ SalesNew ~ handleChipChangeIndexProduct ~ value',
-			value
-		);
+		// console.log(
+		// 	'🚀 ~ file: SalesNew.js:55 ~ SalesNew ~ handleChipChangeIndexProduct ~ value',
+		// 	value
+		// );
 
 		this.setState({
 			valueKey: index,
@@ -75,53 +75,52 @@ class SalesNew extends Component {
 	}
 	handleSubmit = async (e) => {
 		const contextData = this.context;
-		console.log(
-			'🚀 ~ file: SalesNew.js:120 ~ SalesNew ~ componentDidMount ~ contextData',
-			contextData
-		);
-		// const { customer, billed, productOption, total_paid, delivery_note_sent } =
-		// 	this.state;
-		// let data = {
-		// 	customerList: customer,
-		// 	productList: productOption,
-		// 	billed: billed,
-		// 	total_paid: total_paid,
-		// 	delivery_note_sent: delivery_note_sent,
-		// };
-		// try {
-		// 	const url = env.outputs.new;
-		// 	const response = await this.request.new(url, data, false);
-		// 	this.props.enqueueSnackbar(
-		// 		<Translation>
-		// 			{(t) => <div>{t('stock.edit.success')}</div>}
-		// 		</Translation>,
-		// 		{
-		// 			variant: 'success',
-		// 		}
-		// 	);
-		// 	this.setState({ id: response.data._id });
-		// 	this.props.history.push('/sales');
-		// } catch (err) {
-		// 	console.log(
-		// 		'🚀 ~ file: ProductNew.js:85 ~ ProductNew ~ handleSubmit= ~ err',
-		// 		err
-		// 	);
-		// 	if (e.response) {
-		// 		this.props.enqueueSnackbar(e.response.data.message, {
-		// 			variant: 'error',
-		// 		});
-		// 	} else {
-		// 		this.props.enqueueSnackbar(err.response.data.message, {
-		// 			variant: 'error',
-		// 		});
-		// 	}
-		// }
-	};
+		const { customer, billed, total_paid, delivery_note_sent } = this.state;
+		let data = {
+			customer: customer.key,
+			products: contextData.finalList.list,
+			billed: billed,
+			customer_name: customer.label,
+			customer_adresse: customer.address,
+			total_paid: contextData.totalPrice.total,
+			delivery_note_sent: delivery_note_sent,
+		};
 
+		try {
+			const url = env.outputs.new;
+			const response = await this.request.new(url, data, false);
+			this.props.enqueueSnackbar(
+				<Translation>
+					{(t) => <div>{t('stock.edit.success')}</div>}
+				</Translation>,
+				{
+					variant: 'success',
+				}
+			);
+			this.setState({ id: response.data._id });
+			this.props.history.push('/sales');
+		} catch (err) {
+			console.log(
+				'🚀 ~ file: ProductNew.js:85 ~ ProductNew ~ handleSubmit= ~ err',
+				err
+			);
+			if (e.response) {
+				this.props.enqueueSnackbar(e.response.data.message, {
+					variant: 'error',
+				});
+			} else {
+				this.props.enqueueSnackbar(err.response.data.message, {
+					variant: 'error',
+				});
+			}
+		}
+	};
 	async componentDidMount() {
 		try {
+			const contextData = this.context;
 			const urlCustomer = env.customers.all;
 			const responseCustomer = await this.request.getAll(urlCustomer);
+
 			this.setState({
 				customerList: responseCustomer.data,
 			});
@@ -129,6 +128,9 @@ class SalesNew extends Component {
 			const responseProduct = await this.request.getAll(urlProduct);
 			this.setState({
 				productList: responseProduct.data,
+			});
+			this.setState({
+				total_paid: contextData.totalPrice.total,
 			});
 		} catch (e) {
 			console.log(

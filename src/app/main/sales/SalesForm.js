@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
-import { Button, CardContent } from '@material-ui/core';
+import {
+	Button,
+	CardContent,
+	FormControlLabel,
+	Radio,
+} from '@material-ui/core';
 import { FuseAnimate } from '@fuse';
 import { FuseChipSelect } from '@fuse';
+import { RadioGroupFormsy } from '@fuse';
 import Formsy from 'formsy-react';
 import { TextFieldFormsy } from '@fuse';
 import List from './list';
@@ -11,7 +17,10 @@ import env from '../../static';
 import Request from '../../utils/Request';
 import Add from '@material-ui/icons/Add';
 import DeleteForever from '@material-ui/icons/DeleteForever';
+import AppContext from 'app/AppContext';
+
 class SalesForm extends Component {
+	static contextType = AppContext;
 	request = new Request();
 	constructor(props) {
 		super(props);
@@ -25,8 +34,16 @@ class SalesForm extends Component {
 		this.disableButton = this.disableButton.bind(this);
 		this.enableButton = this.enableButton.bind(this);
 		this.handleChipChangeValid = this.handleChipChangeValid.bind(this);
+		this.handleChangeUser = this.handleChangeUser.bind(this);
 	}
-
+	handleChangeUser(event) {
+		const { name, value } = event.target;
+		this.setState({
+			[name]: value,
+		});
+		// localStorage.clear();
+		// localStorage.setItem('AdminOrTeam', value);
+	}
 	disableButton() {
 		this.setState({
 			isFormValid: false,
@@ -41,6 +58,9 @@ class SalesForm extends Component {
 		let t = false;
 		value.map((data) => {
 			switch ('') {
+				// case data.product_id:
+				// 	t = true;
+				// 	break;
 				case data.name:
 					t = true;
 					break;
@@ -66,42 +86,22 @@ class SalesForm extends Component {
 			}
 		});
 	}
-	async componentDidUpdate() {
-		const props = this.props;
-		let url = env.customers.info;
-		let urlProduct = env.products.info;
-		//console.log("🚀 ~ file: SalesForm.js:96 ~ SalesForm ~ componentDidUpdate ~ props.state", props.state)
-		try {
-			if (props.state.customer.key !== '') {
-				const response = await this.request.getById(
-					url,
-					props.state.customer.key
-				);
-				this.setState({
-					dataCustomer: response.data,
-				});
-			}
-			this.setState({ listInput: props.state.productOptions });
-			// if (props.state.productOption.key !== '') {
-			// 	const onProduct = await this.request.getById(
-			// 		urlProduct,
-			// 		props.state.productOption.key
-			// 	);
-			// 	this.setState({
-			// 		productDataId: onProduct.data,
-			// 	});
-			// }
-		} catch (error) {}
-	}
 
 	render() {
 		const props = this.props;
+		const contextData = this.context;
 		let CustomerOptions = props.state.customerList;
 		const suggestionsCustomer = CustomerOptions.map((item) => ({
 			key: item._id,
 			value: item._id,
 			label: `${item.name}`,
+			phone: `${item.phone}`,
+			address: `${item.address}`,
+			email: `${item.email}`,
+			is_franchise: `${item.is_franchise}`,
+			is_mall: `${item.is_mall}`,
 		}));
+
 		let productOptions = props.state.productList;
 		const suggestionsList = productOptions.map((item) => ({
 			key: item._id,
@@ -114,12 +114,12 @@ class SalesForm extends Component {
 		return (
 			<div className='p-16 sm:p-24 max-w-2xl'>
 				<FuseAnimate animation='transition.expandIn'>
-					<CardContent className='flex flex-col items-center justify-center p-32'>
+					<CardContent className='flex flex-col items-center justify-center p-32 '>
 						<Formsy
 							onValidSubmit={props.handleSubmit}
 							onValid={this.enableButton}
 							onInvalid={this.disableButton}
-							className='flex flex-col  w-full'>
+							className='flex flex-col  w-full h-full'>
 							<div style={{ width: 400 }}>
 								<FuseChipSelect
 									className='w-0 my-16'
@@ -138,8 +138,11 @@ class SalesForm extends Component {
 								/>
 							</div>
 
-							{this.state.dataCustomer !== '' && (
-								<div>
+							{props.state.customer !== '' && (
+								<div
+									style={{
+										height: 1000,
+									}}>
 									<div
 										style={{
 											display: 'flex',
@@ -156,7 +159,7 @@ class SalesForm extends Component {
 											}}>
 											<p style={{ fontWeight: 'bold' }}>Contact :</p>
 											<p style={{ textAlign: 'center', marginLeft: 15 }}>
-												{this.state.dataCustomer.name}{' '}
+												{props.state.customer.label}{' '}
 											</p>
 										</div>
 										<div
@@ -167,7 +170,7 @@ class SalesForm extends Component {
 											}}>
 											<p style={{ fontWeight: 'bold' }}>Phone :</p>
 											<p style={{ textAlign: 'center', marginLeft: 15 }}>
-												{this.state.dataCustomer.phone}{' '}
+												{props.state.customer.phone}{' '}
 											</p>
 										</div>
 										<div
@@ -179,7 +182,7 @@ class SalesForm extends Component {
 											}}>
 											<p style={{ fontWeight: 'bold' }}>Email :</p>
 											<p style={{ textAlign: 'center', marginLeft: 15 }}>
-												{this.state.dataCustomer.email}{' '}
+												{props.state.customer.email}{' '}
 											</p>
 										</div>
 										<div
@@ -190,7 +193,7 @@ class SalesForm extends Component {
 											}}>
 											<p style={{ fontWeight: 'bold' }}>Location :</p>
 											<p style={{ textAlign: 'center', marginLeft: 15 }}>
-												{this.state.dataCustomer.address}{' '}
+												{props.state.customer.address}{' '}
 											</p>
 										</div>
 										<div
@@ -200,7 +203,7 @@ class SalesForm extends Component {
 												borderBottom: '1px solid rgb(212, 212, 212)',
 											}}>
 											<p style={{ fontWeight: 'bold' }}>Type :</p>
-											{this.state.dataCustomer.is_franchise ? (
+											{props.state.customer.is_franchise ? (
 												<p style={{ textAlign: 'center', marginLeft: 15 }}>
 													Franchis{' '}
 												</p>
@@ -211,6 +214,7 @@ class SalesForm extends Component {
 											)}
 										</div>
 									</div>
+
 									<List
 										handleChipChangeList={props.handleChipChangeProduct}
 										handleChipChangeValid={this.handleChipChangeValid}
@@ -220,7 +224,9 @@ class SalesForm extends Component {
 										//productDataId={this.state.productDataId}
 										handelChange={props.handelChange}
 										valueKey={props.handleChipChangeIndexProduct}
+										update={props.state.update}
 									/>
+
 									{/* {console.log(
 										'🚀 ~ file: SalesForm.js:220 ~ SalesForm ~ render ~ props.state.productOption',
 										props.state.productOption
@@ -231,7 +237,7 @@ class SalesForm extends Component {
 											flexDirection: 'column',
 											position: 'absolute',
 											right: 0,
-											bottom: 0,
+
 											marginRight: 40,
 
 											borderColor: '#eee',
@@ -248,23 +254,13 @@ class SalesForm extends Component {
 											<p
 												style={{
 													fontWeight: 'bold',
-													borderBottom: '1px solid rgb(212, 212, 212)',
-												}}>
-												SubTotal : Dt
-											</p>
-										</div>
-										<div
-											style={{
-												display: 'flex',
-												flexDirection: 'row',
-											}}>
-											<p
-												style={{
-													fontWeight: 'bold',
 													fontSize: 25,
 													borderBottom: '1px solid rgb(212, 212, 212)',
 												}}>
-												Total : Dt
+												Total :{' '}
+												{contextData.totalPrice.total &&
+													contextData.totalPrice.total}{' '}
+												Dt
 											</p>
 										</div>
 									</div>
@@ -276,11 +272,7 @@ class SalesForm extends Component {
 										aria-label='Register'
 										disabled={!this.state.isFormValid}
 										type='submit'>
-										{
-											<Translation>
-												{(t) => <div>{t('devis.addButton')}</div>}
-											</Translation>
-										}
+										{this.props.ButtonText}
 									</Button>
 								</div>
 							)}

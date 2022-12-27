@@ -16,28 +16,6 @@ class SalesTable extends Component {
 		super(props);
 		this.state = {
 			columns: [
-				// {
-				// 	title: (
-				// 		<Translation>
-				// 			{(t) => <div>{t('boutique.picture')}</div>}
-				// 		</Translation>
-				// 	),
-				// 	field: 'image',
-				// 	render: (rowData) => (
-				// 		(
-				// 			<img
-				// 				alt='brand'
-				// 				src={NoProduct}
-				// 				style={{ width: 50, borderRadius: '50%' }}
-				// 			/>
-				// 		),
-				// 		console.log(
-				// 			'🚀 ~ file: ProductTable.js:41 ~ ProductTable ~ constructor ~ rowData',
-				// 			rowData
-				// 		)
-				// 	),
-				// },
-
 				{
 					title: 'Customer',
 					field: 'customer_name',
@@ -123,7 +101,7 @@ class SalesTable extends Component {
 			});
 
 			return this.setState({
-				data: dataList,
+				data: dataList.reverse(),
 			});
 		} catch (e) {
 			if (e.response) {
@@ -188,10 +166,8 @@ class SalesTable extends Component {
 				title={this.props.t('Output Sales')}
 				columns={this.state.columns}
 				data={this.state.data}
-				routeEdit='/editProduct'
+				routeEdit='/editSales'
 				delete={this.delete}
-				//setStateOnDelete={this.setStateOnDelete}
-
 				state={this.state}
 			/>
 		);

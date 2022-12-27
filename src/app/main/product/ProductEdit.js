@@ -111,12 +111,20 @@ class ProductEdit extends Component {
 				optionCategory: urlCategory.data,
 			});
 			let category = [];
+			console.log(
+				'🚀 ~ file: ProductEdit.js:116 ~ ProductEdit ~ componentDidMount ~ response.data.category',
+				response.data
+			);
 			if (response.data.category.length > 0) {
 				response.data.category.forEach((elem) => {
+					console.log(
+						'🚀 ~ file: ProductEdit.js:117 ~ ProductEdit ~ response.data.category.forEach ~ elem',
+						elem
+					);
 					category.push({
 						key: elem._id,
 						value: elem._id,
-						label: elem.name,
+						name: elem.name,
 					});
 				});
 			}

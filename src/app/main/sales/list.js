@@ -12,49 +12,117 @@ import { useContext } from 'react';
 const List = (props) => {
 	const request = new Request();
 	const [listInput, setListInput] = useState([
-		{ name: '', quantity: '', price: '' },
+		{ product_id: '', name: '', quantity: '', price: '' },
 	]);
+
+	const [totalPrice, setTotalPrice] = useState([]);
 
 	const [index, setIndex] = useState(-1);
 	const contextData = useContext(AppContext);
-	const clonListFunction = () => {
-		console.log('🚀 ~ file: list.js:20 ~ useEffect ~ index', index);
+	const clonListFunction = async () => {
+		//console.log('🚀 ~ file: list.js:20 ~ useEffect ~ index', index);
 		if (index != -1) {
-			let clonList = contextData.finalList.list;
-
+			let clonList = listInput;
 			clonList[index] = {
-				//name: props.value.name,
+				product_id: props.value.key,
+				name: props.value.label,
 				quantity: props.value.quantity,
 				price: props.value.price,
+				//subtTotal: props.value.price * props.value.quantity,
 			};
 			contextData.finalList.setFinalList(clonList);
-			console.log('🚀 ~ file: list.js:16 ~ List ~ list', clonList);
+			setListInput(clonList);
 		}
 	};
+	const clonListFunctionGlobal = async (params, data) => {
+		//console.log('🚀 ~ file: list.js:20 ~ useEffect ~ index', index);
 
+		let clonList = listInput;
+		clonList[params] = {
+			product_id: data.key,
+			name: data.label,
+			quantity: data.quantity == 0 ? '' + data.quantity : data.quantity,
+			price: data.price,
+			//subtTotal: props.value.price * props.value.quantity,
+		};
+		setListInput(clonList);
+		contextData.finalList.setFinalList(clonList);
+	};
+	const sommePriceTotal = () => {
+		let clonList = [...listInput];
+		let totalPriceTable = [];
+		clonList.map((element) => {
+			totalPriceTable.push(element.quantity * element.price);
+		});
+		const initialValue = 0;
+		const sumWithInitial = totalPriceTable.reduce(
+			(accumulator, currentValue) => accumulator + currentValue,
+			initialValue
+		);
+		contextData.totalPrice.setTotalPrice(sumWithInitial);
+		console.log(
+			'🚀 ~ file: list.js:19 ~ List ~ totalPrice',
+			contextData.totalPrice.total
+		);
+	};
 	useEffect(() => {
 		clonListFunction();
+		if (props.update) {
+			for (let i = 0; i < props.value.length; i++) {
+				// setListInput((prevArray) => [
+				// 	...prevArray,
+				// 	{
+				// 		product_id: props.value[i]._id,
+				// 		name: props.value[i].name,
+				// 		quantity: '',
+				// 		price: '',
+				// 	},
+				// ]);
+				clonListFunctionGlobal(i, props.value[i]);
+			}
+			// for (let i = 0; i < props.value.length; i++) {
+			// 	clonListFunctionGlobal(i, props.value[i]);
+			// }
 
-		console.log(props);
+			console.log(
+				'🚀 ~ file: list.js:48 ~ contextData.finalList.list',
+				contextData.finalList.list
+			);
+		}
+		sommePriceTotal();
+
+		//console.log(props);
 	}, [props.value]);
 	const deleteFn = (index) => {
-		let remove = contextData.finalList.list;
-		if (remove[index]) remove.splice(index, 1);
-		contextData.finalList.setFinalList(remove);
+		let remove = listInput;
+
+		if (remove[index]) {
+			remove.splice(index, 1);
+			setListInput(remove);
+			contextData.finalList.setFinalList(remove);
+		}
 	};
 	const updateFn = (index, e) => {
 		let price = e.target.value;
-		let updateProduct = contextData.finalList.list;
+		let updateProduct = listInput;
 		if (updateProduct[index]) updateProduct[index].price = price;
+		setListInput(updateProduct);
 		contextData.finalList.setFinalList(updateProduct);
 	};
 
-	const handleRemoveItem = (idx) => {
-		const temp = [...listInput];
-		idx = listInput.length - 1;
-		temp.splice(idx, 1);
-		setListInput(temp);
-		deleteFn(idx);
+	const handleRemoveItem = (index) => {
+		let remove = [...listInput];
+
+		if (remove[index]) {
+			console.log('true');
+			remove.splice(index, 1);
+			setListInput(remove);
+			contextData.finalList.setFinalList(remove);
+		}
+		console.log(
+			'🚀 ~ file: list.js:111 ~ handleRemoveItem ~ listInput',
+			listInput
+		);
 		//props.handleChipChangeList(temp);
 	};
 
@@ -83,7 +151,17 @@ const List = (props) => {
 							<div style={{ width: 400 }}>
 								<FuseChipSelect
 									className='  mx-16'
-									value={props.value.name}
+									value={
+										props.update
+											? {
+													key: data._id,
+													value: data._id,
+													label: data.name,
+													quantity: data.quantity,
+													price: data.price,
+											  }
+											: props.value.product_id
+									}
 									// onChange={async (e) => {
 									// 	let l = {};
 									// 	await setListInput(
@@ -116,15 +194,13 @@ const List = (props) => {
 										variant: 'outlined',
 									}}
 									options={props.suggestionsList}
+									required
 								/>
 							</div>
 							<div style={{ width: 200 }}>
 								<TextFieldFormsy
 									className=' mx-16'
-									value={
-										contextData.finalList.list[key] &&
-										contextData.finalList.list[key].quantity
-									}
+									value={data.quantity}
 									label='Qte'
 									type='number'
 									name='quantity'
@@ -144,7 +220,10 @@ const List = (props) => {
 									// 	props.handleChipChangeList(l);
 									// 	props.handleChipChangeValid(l);
 									// }}
-									onChange={props.handelChange}
+									onChange={() => {
+										props.handelChange;
+										sommePriceTotal();
+									}}
 									InputLabelProps={{
 										shrink: true,
 									}}
@@ -156,10 +235,7 @@ const List = (props) => {
 							<div style={{ width: 200 }}>
 								<TextFieldFormsy
 									className=' mx-16'
-									value={
-										contextData.finalList.list[key] &&
-										contextData.finalList.list[key].price
-									}
+									value={data.price}
 									label='Unit price'
 									type='number'
 									name='price'
@@ -193,14 +269,20 @@ const List = (props) => {
 								/>
 							</div>
 							{/* <div style={{ width: 200 }}>
-										<TextFieldFormsy
+								<TextFieldFormsy
 									className=' mx-16'
-									value={props.value.price}
+									value={
+										contextData.finalList.list[key] &&
+										contextData.finalList.list[key].subtTotal
+									}
 									label='SubTotal'
 									type='number'
-									name='price'
+									name='subTotal'
 									placeholder='Price'
-									onChange={props.handleChange}
+									onChange={(e) => {
+										props.handelChange;
+										updateFn(key, e);
+									}}
 									InputLabelProps={{
 										shrink: true,
 									}}
@@ -211,7 +293,7 @@ const List = (props) => {
 							</div> */}
 						</div>
 					</fieldset>
-					<DeleteForever onClick={() => handleRemoveItem()} />
+					<DeleteForever onClick={() => handleRemoveItem(key)} />
 				</div>
 			))}
 			{parseInt(props.listProduit).length != undefined
@@ -232,7 +314,7 @@ const List = (props) => {
 						onClick={(index) =>
 							setListInput((prevArray) => [
 								...prevArray,
-								{ name: '', quantity: '', price: '' },
+								{ product_id: '', name: '', quantity: '', price: '' },
 							])
 						}
 					/>
