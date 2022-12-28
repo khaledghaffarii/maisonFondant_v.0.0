@@ -237,14 +237,14 @@ englishLanguage.push(
 		children: [
 			{
 				id: 'admin-component',
-				title: 'History sales',
+				title: 'History outputs',
 				type: 'item',
 				icon: 'supervisor',
 				url: '/Widget2',
 			},
 			{
 				id: 'state-component',
-				title: 'Product',
+				title: 'Final product',
 				type: 'item',
 				icon: 'business',
 				url: '/product',
@@ -258,14 +258,14 @@ englishLanguage.push(
 			},
 			{
 				id: 'devices-component',
-				title: 'products sales',
+				title: 'Add Sales outputs',
 				type: 'item',
 				icon: 'shop',
 				url: '/newSales',
 			},
 			{
 				id: 'brands-component',
-				title: 'Category',
+				title: 'Category of product',
 				type: 'item',
 				icon: 'category',
 				url: '/category',

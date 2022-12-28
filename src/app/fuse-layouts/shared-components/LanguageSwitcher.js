@@ -28,8 +28,8 @@ function LanguageSwitcher() {
 					}
 					//console.log("i18next.language"+i18next.language+"t[0].title",navigationConfig[0].children);
 				}}>
-				<option value='en'>English</option>
-				<option value='fr'>Français</option>
+				<option value='en'>En-English</option>
+				<option value='fr'>Fr-Français</option>
 			</select>
 		</div>
 	);

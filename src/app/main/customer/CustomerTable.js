@@ -20,11 +20,11 @@ class CustomerTable extends Component {
 					field: 'name',
 				},
 				{
-					title: <Translation>{(t) => <div>{t('Email')}</div>}</Translation>,
+					title: 'Email',
 					field: 'email',
 				},
 				{
-					title: <Translation>{(t) => <div>{t('Phone')}</div>}</Translation>,
+					title: 'Phone',
 					field: 'phone',
 				},
 				{

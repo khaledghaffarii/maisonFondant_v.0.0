@@ -15,38 +15,16 @@ class ProductTable extends Component {
 		super(props);
 		this.state = {
 			columns: [
-				// {
-				// 	title: (
-				// 		<Translation>
-				// 			{(t) => <div>{t('boutique.picture')}</div>}
-				// 		</Translation>
-				// 	),
-				// 	field: 'image',
-				// 	render: (rowData) => (
-				// 		(
-				// 			<img
-				// 				alt='brand'
-				// 				src={NoProduct}
-				// 				style={{ width: 50, borderRadius: '50%' }}
-				// 			/>
-				// 		),
-				// 		console.log(
-				// 			'🚀 ~ file: ProductTable.js:41 ~ ProductTable ~ constructor ~ rowData',
-				// 			rowData
-				// 		)
-				// 	),
-				// },
-
 				{
 					title: 'Name',
 					field: 'name',
 				},
 				{
-					title: <Translation>{(t) => <div>{t('Quantity')}</div>}</Translation>,
+					title: 'Quantity',
 					field: 'quantity',
 				},
 				{
-					title: <Translation>{(t) => <div>{t('price')}</div>}</Translation>,
+					title: 'Price',
 					field: 'price',
 				},
 				{
