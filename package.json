@@ -25,7 +25,6 @@
         "date-fns": "^2.0.0-alpha.27",
         "downshift": "^3.2.10",
         "file-saver": "^2.0.2",
-        "firebase": "^8.2.3",
         "formsy-react": "^1.1.5",
         "google-map-react": "^1.1.4",
         "google-maps-react": "^2.0.2",
