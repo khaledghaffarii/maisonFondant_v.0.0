@@ -128,6 +128,13 @@ frenchLanguage.push(
 				url: '/category',
 			},
 			// {
+			// 	id: 'brands-component',
+			// 	title: 'Recette',
+			// 	type: 'item',
+			// 	icon: 'money',
+			// 	url: '/recipe',
+			// },
+			// {
 			// 	id: 'gammes-component',
 			// 	title: 'Ranges',
 			// 	type: 'item',

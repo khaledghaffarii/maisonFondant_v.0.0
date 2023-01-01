@@ -34,6 +34,8 @@ class SalesNew extends Component {
 			total_paid: 0,
 			valueKey: '',
 			delivery_note_sent: false,
+			dateNow: '',
+			date: '',
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -116,6 +118,10 @@ class SalesNew extends Component {
 		}
 	};
 	async componentDidMount() {
+		const current = new Date();
+		const date = `${current.getDate()}/${
+			current.getMonth() + 1
+		}/${current.getFullYear()}`;
 		try {
 			const contextData = this.context;
 			const urlCustomer = env.customers.all;
@@ -131,6 +137,7 @@ class SalesNew extends Component {
 			});
 			this.setState({
 				total_paid: contextData.totalPrice.total,
+				date: date,
 			});
 		} catch (e) {
 			console.log(

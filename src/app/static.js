@@ -1,6 +1,6 @@
 let user = localStorage.getItem('AdminOrTeam');
-const globalUrl = 'http://34.198.216.160:8000/';
-const baseUrl = 'http://34.198.216.160:8000/';
+const globalUrl = 'http://api.gesteasyapp.com/';
+const baseUrl = 'http://api.gesteasyapp.com/';
 
 module.exports = {
 	globalUrl,
@@ -33,5 +33,8 @@ module.exports = {
 		remove: (id) => `${baseUrl}outputs/${id}`,
 		update: (id) => `${baseUrl}outputs/${id}`,
 		info: baseUrl + 'outputs',
+		year: baseUrl + 'outputs/yearly_recipe?year=2022',
+		month: baseUrl + 'outputs/monthly_recipe?year=2022&month=12',
+		quarter: baseUrl + 'outputs/monthly_recipe?year=2022&quarter=4',
 	},
 };

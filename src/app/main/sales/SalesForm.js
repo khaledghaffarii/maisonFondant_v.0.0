@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useRef, Component } from 'react';
 import {
 	Button,
 	CardContent,
@@ -20,6 +20,7 @@ import DeleteForever from '@material-ui/icons/DeleteForever';
 import AppContext from 'app/AppContext';
 
 class SalesForm extends Component {
+	pdfRef = React.createRef();
 	static contextType = AppContext;
 	request = new Request();
 	constructor(props) {
@@ -30,25 +31,33 @@ class SalesForm extends Component {
 			dataCustomer: '',
 			productDataId: '',
 			listInput: { name: '', quantity: '', price: '' },
+			newDate: new Date().getDate(),
+			date: new Date().getDate(),
+			month: new Date().getMonth() + 1,
+			year: new Date().getFullYear(),
+			selectValue: '',
 		};
 		this.disableButton = this.disableButton.bind(this);
 		this.enableButton = this.enableButton.bind(this);
 		this.handleChipChangeValid = this.handleChipChangeValid.bind(this);
 		this.handleChangeUser = this.handleChangeUser.bind(this);
 	}
+
 	handleChangeUser(event) {
 		const { name, value } = event.target;
 		this.setState({
 			[name]: value,
 		});
-		// localStorage.clear();
-		// localStorage.setItem('AdminOrTeam', value);
 	}
+	handleChangeSelect = (e) => {
+		this.setState({ selectValue: e.target.value });
+	};
 	disableButton() {
 		this.setState({
 			isFormValid: false,
 		});
 	}
+
 	enableButton() {
 		this.setState({
 			isFormValid: true,
@@ -120,9 +129,34 @@ class SalesForm extends Component {
 							onValid={this.enableButton}
 							onInvalid={this.disableButton}
 							className='flex flex-col  w-full h-full'>
-							<div style={{ width: 400 }}>
+							{props.state.customer !== '' && (
+								<div>
+									<div style={{ marginBottom: 40 }}>
+										<select
+											value={this.state.selectValue}
+											style={{
+												paddingTop: 10,
+												paddingRight: 20,
+												paddingLeft: 20,
+												paddingBottom: 10,
+												borderRadius: 20,
+											}}
+											onChange={this.handleChangeSelect}>
+											<option value='Quote'>Sales Quote</option>
+											<option value='DeliveryNote'>Delivery Note</option>
+										</select>
+									</div>
+								</div>
+							)}
+
+							<div
+								style={{
+									display: 'flex',
+									flexDirection: 'row',
+									alignContent: 'space-around',
+								}}>
 								<FuseChipSelect
-									className='w-0 my-16'
+									className='w-256 my-16'
 									value={props.state.customer}
 									onChange={props.handleChipChangeCustomer}
 									placeholder='Select Customer'
@@ -136,6 +170,25 @@ class SalesForm extends Component {
 									options={suggestionsCustomer}
 									required
 								/>
+								{props.state.date && (
+									<div
+										style={{
+											display: 'flex',
+											flexDirection: 'row',
+											alignContent: 'center',
+										}}>
+										{/* <p>Actually date :</p> */}
+										<p
+											style={{
+												position: 'absolute',
+												right: 0,
+												marginTop: 25,
+												fontWeight: 'bold',
+											}}>
+											Actually date : {props.state.date}
+										</p>
+									</div>
+								)}
 							</div>
 
 							{props.state.customer !== '' && (
@@ -283,4 +336,5 @@ class SalesForm extends Component {
 		);
 	}
 }
+
 export default withTranslation()(withRouter(SalesForm));

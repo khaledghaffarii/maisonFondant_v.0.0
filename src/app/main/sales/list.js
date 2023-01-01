@@ -220,9 +220,13 @@ const List = (props) => {
 									// 	props.handleChipChangeList(l);
 									// 	props.handleChipChangeValid(l);
 									// }}
-									onChange={() => {
+									max={data.quantity}
+									onChange={(event) => {
 										props.handelChange;
 										sommePriceTotal();
+										if (event.target.value > data.quantity) {
+											event.preventDefault();
+										}
 									}}
 									InputLabelProps={{
 										shrink: true,
