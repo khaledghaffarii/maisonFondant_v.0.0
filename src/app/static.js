@@ -1,6 +1,6 @@
 let user = localStorage.getItem('AdminOrTeam');
-const globalUrl = 'http://api.gesteasyapp.com/';
-const baseUrl = 'http://api.gesteasyapp.com/';
+const globalUrl = 'https://api.gesteasyapp.com/';
+const baseUrl = 'https://api.gesteasyapp.com/';
 
 module.exports = {
 	globalUrl,
