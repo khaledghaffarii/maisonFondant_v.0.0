@@ -18,6 +18,7 @@ import Request from '../../utils/Request';
 import Add from '@material-ui/icons/Add';
 import DeleteForever from '@material-ui/icons/DeleteForever';
 import AppContext from 'app/AppContext';
+// import MyDocument from './facture/MyDocument';
 
 class SalesForm extends Component {
 	pdfRef = React.createRef();
@@ -146,6 +147,13 @@ class SalesForm extends Component {
 											<option value='DeliveryNote'>Delivery Note</option>
 										</select>
 									</div>
+									{/* <MyDocument
+										fname={props.state.customer.label}
+										adress={props.state.customer.adress}
+										email={props.state.customer.email}
+										phone={props.state.customer.phone}
+										product={props.state.productOption}
+									/> */}
 								</div>
 							)}
 

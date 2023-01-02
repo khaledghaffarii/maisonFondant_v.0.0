@@ -8,6 +8,16 @@ const Body = (props) => {
 	const { t } = useTranslation();
 	return (
 		<View>
+			<View style={styles.containerH}>
+				<View style={styles.detailColumnH}>
+					<Text style={styles.nameH}>
+						{t('devis.quotes')}: {props.numero}
+					</Text>
+					<Text style={styles.subtitleH}>
+						{t('print.quotationDate')}: {new Date().toLocaleString()}
+					</Text>
+				</View>
+			</View>
 			<View style={styles.container1}>
 				<View style={styles.detailColumn1}>
 					<Text style={styles.sender}>Maison Fondant</Text>
@@ -31,17 +41,102 @@ const Body = (props) => {
 				<Text style={styles.sender}>{props.email}</Text>
 			</View>
 
-			{/* <Description
-        tva={props.tva}
-        montant_ht={props.montant_ht}
-        timber={props.timber}
-        montant_ttc={props.montant_ttc}
-        devisList={props.devisList}
-      /> */}
+			<View>
+				<View style={styles.containerDis}>
+					<View style={styles.detailColumnDis}>
+						<Text style={styles.titleDis}>Product</Text>
+						{props.product.map((element) => (
+							<Text key={element.product_id} style={styles.subtitleDis}>
+								{element.nameDis}
+							</Text>
+						))}
+					</View>
+					<View style={styles.detailColumnDis}>
+						<Text style={styles.titleDis}>{props.t('stock.price')}</Text>
+						{props.product.map((element) => (
+							<Text key={element.product_id} style={styles.subtitleDis}>
+								{element.price}
+							</Text>
+						))}
+					</View>
+					<View style={styles.detailColumnDis}>
+						<Text style={styles.titleDis}> {props.t('stock.quantity')}</Text>
+						{props.product.map((element) => (
+							<Text key={element.product_id} style={styles.subtitleDis}>
+								{element.quantity}
+							</Text>
+						))}
+					</View>
+				</View>
+
+				<Text style={styles.titleDis}>
+					{this.props.t('Total')}: {props.montant_ttc} DT
+				</Text>
+			</View>
 		</View>
 	);
 };
 const styles = StyleSheet.create({
+	containerH: {
+		flexDirection: 'row',
+		borderBottomWidth: 2,
+		borderBottomColor: '#112131',
+		borderBottomStyle: 'solid',
+		alignItems: 'stretch',
+		margin: 20,
+		height: 60,
+	},
+	detailColumnH: {
+		flexDirection: 'column',
+		flexGrow: 9,
+		textTransform: 'uppercase',
+	},
+	nameH: {
+		fontSize: 24,
+	},
+	subtitleH: {
+		fontSize: 12,
+		justifySelf: 'flex-end',
+		marginTop: 10,
+	},
+	containerDis: {
+		flexDirection: 'row',
+		alignItems: 'stretch',
+		margin: 20,
+		borderLeftWidth: 1,
+		borderTopWidth: 1,
+		borderBottomWidth: 1,
+		borderColor: '#112131',
+		borderStyle: 'solid',
+		marginTop: 50,
+	},
+	detailColumnDis: {
+		flexDirection: 'column',
+		borderRightWidth: 1,
+		borderColor: '#112131',
+		borderStyle: 'solid',
+		flexGrow: 9,
+	},
+	nameDis: {
+		fontSize: 24,
+	},
+	titleDis: {
+		fontSize: 14,
+		justifySelf: 'flex-end',
+		marginTop: 10,
+		margin: 'auto',
+		borderBottomWidth: 1,
+		borderColor: '#112131',
+		borderStyle: 'solid',
+		padding: '5px',
+	},
+	subtitleDis: {
+		fontSize: 12,
+		justifySelf: 'flex-end',
+		marginTop: 10,
+		margin: 'auto',
+		padding: '5px',
+	},
 	container1: {
 		flexDirection: 'row',
 		borderBottomWidth: 1,
