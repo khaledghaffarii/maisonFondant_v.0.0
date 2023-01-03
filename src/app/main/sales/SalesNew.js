@@ -69,7 +69,7 @@ class SalesNew extends Component {
 			productOption: value,
 		});
 	}
-	handleChange(event) {
+	handleChange(event, data) {
 		const { name, value } = event.target;
 		this.setState({
 			[name]: value,

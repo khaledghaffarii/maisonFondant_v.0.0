@@ -14,7 +14,9 @@ const List = (props) => {
 	const [listInput, setListInput] = useState([
 		{ product_id: '', name: '', quantity: '', price: '' },
 	]);
-
+	const [listInput2, setListInput2] = useState([
+		{ product_id: '', name: '', quantity: '', price: '' },
+	]);
 	const [totalPrice, setTotalPrice] = useState([]);
 
 	const [index, setIndex] = useState(-1);
@@ -48,6 +50,21 @@ const List = (props) => {
 		setListInput(clonList);
 		contextData.finalList.setFinalList(clonList);
 	};
+	const clonListFunctionGlobal2 = async (params, data) => {
+		let clonList = listInput2;
+
+		clonList[params] = {
+			product_id: data.key,
+			name: data.label,
+			quantity: data.quantity == 0 ? '' + data.quantity : data.quantity,
+			price: data.price,
+		};
+		setListInput2(clonList);
+		console.log(
+			'🚀 ~ file: list.js:57 ~ clonListFunctionGlobal2 ~ clonList',
+			clonList
+		);
+	};
 	const sommePriceTotal = () => {
 		let clonList = [...listInput];
 		let totalPriceTable = [];
@@ -60,12 +77,13 @@ const List = (props) => {
 			initialValue
 		);
 		contextData.totalPrice.setTotalPrice(sumWithInitial);
-		console.log(
-			'🚀 ~ file: list.js:19 ~ List ~ totalPrice',
-			contextData.totalPrice.total
-		);
+		// console.log(
+		// 	'🚀 ~ file: list.js:19 ~ List ~ totalPrice',
+		// 	contextData.totalPrice.total
+		// );
 	};
 	useEffect(() => {
+		console.log('🚀 ~ file: list.js:17 ~ List ~ listInput', listInput);
 		clonListFunction();
 		if (props.update) {
 			for (let i = 0; i < props.value.length; i++) {
@@ -109,7 +127,22 @@ const List = (props) => {
 		setListInput(updateProduct);
 		contextData.finalList.setFinalList(updateProduct);
 	};
+	const updateFnQuantity = (index, e, data) => {
+		let initialQuantity = listInput2[index].quantity;
+		let quantity = e.target.value;
+		let updateProduct = [...listInput];
 
+		if (Number(quantity) > Number(initialQuantity)) {
+			if (updateProduct[index]) updateProduct[index].quantity = initialQuantity;
+			setListInput(updateProduct);
+			contextData.finalList.setFinalList(updateProduct);
+		} else {
+			if (updateProduct[index]) updateProduct[index].quantity = quantity;
+			//e.preventDefault();
+			setListInput(updateProduct);
+			contextData.finalList.setFinalList(updateProduct);
+		}
+	};
 	const handleRemoveItem = (index) => {
 		let remove = [...listInput];
 
@@ -180,8 +213,10 @@ const List = (props) => {
 									// }}
 
 									onChange={(e) => {
+										console.log('🚀 ~ file: list.js:216 ~ List ~ e', e);
 										props.valueKey(key, e);
 										setIndex(key);
+										clonListFunctionGlobal2(key, e);
 										//updateFnLiist(key, e);
 										//props.handleChipChangeList
 									}}
@@ -205,28 +240,11 @@ const List = (props) => {
 									type='number'
 									name='quantity'
 									placeholder='Quantity'
-									// onChange={async (e) => {
-									// 	let l = {};
-									// 	await setListInput(
-									// 		(l = listInput.map((item, k) => {
-									// 			const condition = k == key; // Implement logic
-									// 			// l={...item, Quantite: condition ? e.target.value : item.Remise };
-									// 			return {
-									// 				...item,
-									// 				quantite: condition ? e.target.value : item.quantite,
-									// 			};
-									// 		}))
-									// 	);
-									// 	props.handleChipChangeList(l);
-									// 	props.handleChipChangeValid(l);
-									// }}
-									max={data.quantity}
+									//max={data.quantity}
 									onChange={(event) => {
-										props.handelChange;
+										//event.preventDefault();
+										updateFnQuantity(key, event, data.quantity);
 										sommePriceTotal();
-										if (event.target.value > data.quantity) {
-											event.preventDefault();
-										}
 									}}
 									InputLabelProps={{
 										shrink: true,

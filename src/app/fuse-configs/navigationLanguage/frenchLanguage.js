@@ -113,13 +113,7 @@ frenchLanguage.push(
 				icon: 'contact_mail',
 				url: '/customer',
 			},
-			{
-				id: 'devices-component',
-				title: 'Ajout sortie vente',
-				type: 'item',
-				icon: 'shop',
-				url: '/newSales',
-			},
+
 			{
 				id: 'brands-component',
 				title: 'Categorie des produits',

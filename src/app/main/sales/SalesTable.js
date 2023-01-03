@@ -18,17 +18,9 @@ class SalesTable extends Component {
 			columns: [
 				{
 					title: 'Customer',
-					field: 'customer_name',
-				},
-				{
-					title: 'Location',
-					field: 'customer_adresse',
-				},
-
-				{
-					title: 'Status',
 					render: (rowData) => (
 						<div>
+							<p>{rowData.customer_name} </p>
 							{rowData.billed ? (
 								<p style={{ color: 'green' }}>Billed</p>
 							) : (
@@ -36,21 +28,39 @@ class SalesTable extends Component {
 							)}
 						</div>
 					),
-					field: 'billed',
+					field: 'customer_name',
 				},
 				{
-					title: 'Delivery',
-					render: (rowData) => (
-						<div>
-							{rowData.delivery_note_sent ? (
-								<p style={{ color: 'green' }}>Delivered </p>
-							) : (
-								<p style={{ color: 'red' }}>Not delivered </p>
-							)}
-						</div>
-					),
-					field: 'delivery_note_sent',
+					title: 'Location',
+					field: 'customer_adresse',
 				},
+
+				// {
+				// 	title: 'Status',
+				// 	render: (rowData) => (
+				// 		<div>
+				// 			{rowData.billed ? (
+				// 				<p style={{ color: 'green' }}>Billed</p>
+				// 			) : (
+				// 				<p style={{ color: 'red' }}>No billed</p>
+				// 			)}
+				// 		</div>
+				// 	),
+				// 	field: 'billed',
+				// },
+				// {
+				// 	title: 'Delivery',
+				// 	render: (rowData) => (
+				// 		<div>
+				// 			{rowData.delivery_note_sent ? (
+				// 				<p style={{ color: 'green' }}>Delivered </p>
+				// 			) : (
+				// 				<p style={{ color: 'red' }}>Not delivered </p>
+				// 			)}
+				// 		</div>
+				// 	),
+				// 	field: 'delivery_note_sent',
+				// },
 				{
 					title: 'Order date',
 					render: (rowData) => (

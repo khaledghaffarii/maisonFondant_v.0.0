@@ -256,13 +256,7 @@ englishLanguage.push(
 				icon: 'contact_mail',
 				url: '/customer',
 			},
-			{
-				id: 'devices-component',
-				title: 'Add Sales outputs',
-				type: 'item',
-				icon: 'shop',
-				url: '/newSales',
-			},
+
 			{
 				id: 'brands-component',
 				title: 'Category of product',

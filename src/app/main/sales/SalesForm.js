@@ -18,6 +18,8 @@ import Request from '../../utils/Request';
 import Add from '@material-ui/icons/Add';
 import DeleteForever from '@material-ui/icons/DeleteForever';
 import AppContext from 'app/AppContext';
+// import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+
 // import MyDocument from './facture/MyDocument';
 
 class SalesForm extends Component {
@@ -50,6 +52,9 @@ class SalesForm extends Component {
 			[name]: value,
 		});
 	}
+	handleChangeYearSection = (e) => {
+		this.setState({ yearSection: e.target.value });
+	};
 	handleChangeSelect = (e) => {
 		this.setState({ selectValue: e.target.value });
 	};
@@ -147,13 +152,19 @@ class SalesForm extends Component {
 											<option value='DeliveryNote'>Delivery Note</option>
 										</select>
 									</div>
-									{/* <MyDocument
-										fname={props.state.customer.label}
-										adress={props.state.customer.adress}
-										email={props.state.customer.email}
-										phone={props.state.customer.phone}
-										product={props.state.productOption}
-									/> */}
+									<form ref={formRef} onSubmit={handleSubmit}>
+										<label>
+											Name:
+											<input type='text' name='name' />
+										</label>
+										<br />
+										<label>
+											Email:
+											<input type='email' name='email' />
+										</label>
+										<br />
+										<button type='submit'>Generate PDF</button>
+									</form>
 								</div>
 							)}
 
