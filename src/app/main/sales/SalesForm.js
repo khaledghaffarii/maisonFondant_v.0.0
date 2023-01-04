@@ -104,6 +104,7 @@ class SalesForm extends Component {
 
 	render() {
 		const props = this.props;
+
 		const contextData = this.context;
 		let CustomerOptions = props.state.customerList;
 		const suggestionsCustomer = CustomerOptions.map((item) => ({
@@ -118,14 +119,25 @@ class SalesForm extends Component {
 		}));
 
 		let productOptions = props.state.productList;
-		const suggestionsList = productOptions.map((item) => ({
-			key: item._id,
-			value: item._id,
-			label: `${item.name}`,
-			quantity: `${item.quantity}`,
-			price: `${item.price}`,
-		}));
+		console.log(
+			'🚀 ~ file: SalesForm.js:122 ~ SalesForm ~ render ~ productOptions',
+			productOptions
+		);
+		// const suggestionsList = productOptions.map((item) => ({
+		// 	key: item._id,
+		// 	value: item._id,
+		// 	label: `${item.name}`,
+		// 	quantity: `${item.quantity}`,
+		// 	price: `${item.price}`,
+		// }));
 
+		const formattedTotalPrice = contextData.totalPrice.total.toLocaleString(
+			'fr-TN',
+			{
+				style: 'currency',
+				currency: 'TND',
+			}
+		);
 		return (
 			<div className='p-16 sm:p-24 max-w-2xl'>
 				<FuseAnimate animation='transition.expandIn'>
@@ -152,19 +164,6 @@ class SalesForm extends Component {
 											<option value='DeliveryNote'>Delivery Note</option>
 										</select>
 									</div>
-									<form ref={formRef} onSubmit={handleSubmit}>
-										<label>
-											Name:
-											<input type='text' name='name' />
-										</label>
-										<br />
-										<label>
-											Email:
-											<input type='email' name='email' />
-										</label>
-										<br />
-										<button type='submit'>Generate PDF</button>
-									</form>
 								</div>
 							)}
 
@@ -290,13 +289,14 @@ class SalesForm extends Component {
 									<List
 										handleChipChangeList={props.handleChipChangeProduct}
 										handleChipChangeValid={this.handleChipChangeValid}
-										suggestionsList={suggestionsList}
+										suggestionsList={productOptions}
 										value={props.state.productOption}
 										listProduit={props.state.product}
 										//productDataId={this.state.productDataId}
 										handelChange={props.handelChange}
 										valueKey={props.handleChipChangeIndexProduct}
 										update={props.state.update}
+										listProduct={props.listProduct}
 									/>
 
 									{/* {console.log(
@@ -326,13 +326,13 @@ class SalesForm extends Component {
 											<p
 												style={{
 													fontWeight: 'bold',
+													textAlign: 'center',
+													margin: 10,
 													fontSize: 25,
 													borderBottom: '1px solid rgb(212, 212, 212)',
 												}}>
 												Total :{' '}
-												{contextData.totalPrice.total &&
-													contextData.totalPrice.total}{' '}
-												Dt
+												{contextData.totalPrice.total && formattedTotalPrice}
 											</p>
 										</div>
 									</div>

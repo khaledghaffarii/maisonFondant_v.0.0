@@ -54,6 +54,11 @@ class SalesNew extends Component {
 		});
 	}
 	handleChipChangeProduct(value) {
+		let product = this.state.productOption;
+		console.log(
+			'🚀 ~ file: SalesNew.js:58 ~ SalesNew ~ handleChipChangeProduct ~ product',
+			product
+		);
 		this.setState({
 			productOption: value,
 		});
@@ -117,6 +122,12 @@ class SalesNew extends Component {
 			}
 		}
 	};
+	listProduct = (data) => {
+		console.log('🚀 ~ file: SalesNew.js:126 ~ SalesNew ~ data', data);
+		this.setState({
+			productList: data,
+		});
+	};
 	async componentDidMount() {
 		const current = new Date();
 		const date = `${current.getDate()}/${
@@ -132,8 +143,15 @@ class SalesNew extends Component {
 			});
 			const urlProduct = env.products.all;
 			const responseProduct = await this.request.getAll(urlProduct);
+			const suggestionsList = responseProduct.data.map((item) => ({
+				key: item._id,
+				value: item._id,
+				label: `${item.name}`,
+				quantity: `${item.quantity}`,
+				price: `${item.price}`,
+			}));
 			this.setState({
-				productList: responseProduct.data,
+				productList: suggestionsList,
 			});
 			this.setState({
 				total_paid: contextData.totalPrice.total,
@@ -178,6 +196,7 @@ class SalesNew extends Component {
 						ButtonText={
 							<Translation>{(t) => <div>{t('Add order')}</div>}</Translation>
 						}
+						listProduct={this.listProduct}
 						handleChange={this.handleChange}
 						fileChangedHandler={this.fileChangedHandler}
 					/>

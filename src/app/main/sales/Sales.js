@@ -77,24 +77,25 @@ class Sales extends Component {
 		this.setState({ yearSection: e.target.value });
 	};
 	async componentDidUpdate() {
-		// const date = new Date(this.state.startDate);
-		// const formattedDate = date.toLocaleDateString('en-GB', {
-		// 	day: '2-digit',
-		// 	month: '2-digit',
-		// 	year: 'numeric',
-		// });
-
 		try {
 			const result = await this.request.getAll(
-				`http://34.198.216.160:8000/outputs/yearly_recipe?year=${this.state.selectedYear}`
+				`https://api.gesteasyapp.com/outputs/yearly_recipe?year=${this.state.selectedYear}`
 			);
-			const response = await this.request.getAll(
-				`http://34.198.216.160:8000/outputs/monthly_recipe?year=${this.state.selectedYear}&month=${this.state.selectedMonth}`
+			console.log(
+				'🚀 ~ file: Sales.js:84 ~ Sales ~ componentDidUpdate ~ this.state.selectedYear',
+				this.state.selectedYear
 			);
-
 			result.data.forEach((element) => {
+				console.log(
+					'🚀 ~ file: Sales.js:85 ~ Sales ~ result.data.forEach ~ element',
+					element
+				);
 				this.setState({ recipeYear: element['Total Recipe'] });
 			});
+			const response = await this.request.getAll(
+				`https://api.gesteasyapp.com/outputs/monthly_recipe?year=${this.state.selectedYear}&month=${this.state.selectedMonth}`
+			);
+
 			response.data.forEach((element) => {
 				this.setState({ recipeMonth: element['totalPurchase'] });
 			});
@@ -148,14 +149,14 @@ class Sales extends Component {
 						{!this.state.showRecipe ? (
 							<button
 								style={{
-									backgroundColor: 'red',
+									backgroundColor: '#9b5700',
 									color: 'white',
 									height: 38,
 									width: 150,
 									marginTop: 50,
 									padding: 10,
 									borderRadius: '10px',
-									borderColor: 'red',
+									borderColor: '#9b5700',
 								}}
 								onClick={this.handelClickRecipi}>
 								Show Total Rcipe
@@ -183,7 +184,8 @@ class Sales extends Component {
 										<option value='month'>Month</option>
 										<option value='day'>Day</option>
 									</select>
-									{this.state.selectValue == 'year' ? (
+									{this.state.selectValue == 'year' ||
+									this.state.selectValue == 'month' ? (
 										<select
 											style={{
 												paddingTop: 10,
@@ -248,24 +250,35 @@ class Sales extends Component {
 										}}>
 										Recipe :
 									</p>
-									<p
-										style={{
-											fontFamily: 'serif',
-											fontSize: 25,
-											marginLeft: 10,
-										}}>
-										{' '}
-										{this.state.selectValue == 'year'
-											? formattedNumberYear
-											: formattedNumberMonth}
-									</p>
+									{this.state.recipeYear || this.state.recipeMonth ? (
+										<p
+											style={{
+												fontFamily: 'serif',
+												fontSize: 25,
+												marginLeft: 10,
+											}}>
+											{' '}
+											{this.state.selectValue == 'year'
+												? this.state.recipeYear
+												: this.state.recipeMonth}
+										</p>
+									) : (
+										<p
+											style={{
+												fontFamily: 'serif',
+												fontSize: 25,
+												marginLeft: 10,
+											}}>
+											0 DTN
+										</p>
+									)}
 								</div>
 							</div>
 						)}
 
 						<TableHeader
 							addRoute='/newSales'
-							buttonText={this.props.t('Add Recipe')}
+							buttonText={this.props.t('Add Sales')}
 						/>
 					</div>
 				}

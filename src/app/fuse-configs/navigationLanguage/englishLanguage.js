@@ -231,13 +231,13 @@ let per = permissions;
 englishLanguage.push(
 	{
 		id: 'configuration-component',
-		title: 'Salse',
+		title: 'Sales',
 		type: 'group',
 		icon: 'show_chart',
 		children: [
 			{
 				id: 'admin-component',
-				title: 'History outputs',
+				title: 'Outputs History',
 				type: 'item',
 				icon: 'supervisor',
 				url: '/Widget2',

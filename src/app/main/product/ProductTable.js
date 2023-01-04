@@ -11,6 +11,7 @@ import { withTranslation, Translation } from 'react-i18next';
 import NoProduct from '../../../assets/no-product.png';
 class ProductTable extends Component {
 	request = new Request();
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -48,12 +49,18 @@ class ProductTable extends Component {
 			let category = [];
 			let categoriesValues = '';
 			result.data.forEach((element) => {
+				const formattedTotalPrice = element.price
+					.toFixed(1)
+					.toLocaleString('fr-TN', {
+						style: 'currency',
+						currency: 'TND',
+					});
 				dataList.push({
 					_id: element._id,
 					image: element.image,
 					name: element.name,
 					quantity: element.quantity,
-					price: element.price,
+					price: formattedTotalPrice,
 					category: element.category.name,
 				});
 			});
