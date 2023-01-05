@@ -35,7 +35,7 @@ class Sales extends Component {
 		super(props);
 		this.state = {
 			selectValue: 'year',
-			recipeYear: '',
+			recipeYear: 0,
 			recipeMonth: '',
 			recipeQuarter: '',
 			yearSection: new Date().getFullYear(),
@@ -54,16 +54,64 @@ class Sales extends Component {
 			startDate: date,
 		});
 	};
-	handleChangeSelctedYear = (event) => {
-		this.setState({ selectedYear: event.target.value });
+	handleChangeSelctedYear = async (event) => {
+		try {
+			this.setState({ selectedYear: event.target.value });
+
+			const result = await this.request.getAll(
+				`https://api.gesteasyapp.com/outputs/yearly_recipe?year=${event.target.value}`
+			);
+
+			if (result.data.length > 0) {
+				result.data.forEach((element) => {
+					this.setState({ recipeYear: element['Total Recipe'] });
+				});
+			} else {
+				this.setState({ recipeYear: 0 });
+			}
+			const response = await this.request.getAll(
+				`https://api.gesteasyapp.com/outputs/monthly_recipe?year=${this.state.selectedYear}&month=${this.state.selectedMonth}`
+			);
+
+			if (response.data.length > 0) {
+				response.data.forEach((element) => {
+					this.setState({ recipeMonth: element['totalPurchase'] });
+				});
+			} else {
+				this.setState({ recipeMonth: 0 });
+			}
+		} catch (error) {
+			console.log(
+				'🚀 ~ file: Sales.js:72 ~ Sales ~ handleChangeSelctedYear= ~ error',
+				error
+			);
+		}
 	};
 	getInitialState() {
 		return { selectValue: 'Radish' };
 	}
-	handleChangeMonth = (event) => {
+	handleChangeMonth = async (event) => {
 		this.setState({
 			selectedMonth: event.target.value,
 		});
+		const response = await this.request.getAll(
+			`https://api.gesteasyapp.com/outputs/monthly_recipe?year=${this.state.selectedYear}&month=${event.target.value}`
+		);
+		console.log(
+			'🚀 ~ file: Sales.js:89 ~ Sales ~ handleChangeMonth= ~ response',
+			response
+		);
+		console.log(
+			'🚀 ~ file: Sales.js:89 ~ Sales ~ handleChangeMonth= ~ this.state.selectedYear',
+			this.state.selectedYear
+		);
+		if (response.data.length > 0) {
+			response.data.forEach((element) => {
+				this.setState({ recipeMonth: element['totalPurchase'] });
+			});
+		} else {
+			this.setState({ recipeMonth: 0 });
+		}
 	};
 	handelClickRecipi = () => {
 		this.setState({
@@ -76,24 +124,25 @@ class Sales extends Component {
 	handleChangeYearSection = (e) => {
 		this.setState({ yearSection: e.target.value });
 	};
-	async componentDidUpdate() {
+	async componentDidMount() {
 		try {
 			const result = await this.request.getAll(
 				`https://api.gesteasyapp.com/outputs/yearly_recipe?year=${this.state.selectedYear}`
 			);
-			console.log(
-				'🚀 ~ file: Sales.js:84 ~ Sales ~ componentDidUpdate ~ this.state.selectedYear',
-				this.state.selectedYear
-			);
-			result.data.forEach((element) => {
-				console.log(
-					'🚀 ~ file: Sales.js:85 ~ Sales ~ result.data.forEach ~ element',
-					element
-				);
-				this.setState({ recipeYear: element['Total Recipe'] });
-			});
+
+			if (result.data.length > 0) {
+				result.data.forEach((element) => {
+					this.setState({ recipeYear: element['Total Recipe'] });
+				});
+			} else {
+				this.setState({ recipeYear: 0 });
+			}
 			const response = await this.request.getAll(
 				`https://api.gesteasyapp.com/outputs/monthly_recipe?year=${this.state.selectedYear}&month=${this.state.selectedMonth}`
+			);
+			console.log(
+				'🚀 ~ file: Sales.js:124 ~ Sales ~ componentDidMount ~ this.state.selectedYear',
+				this.state.selectedYear
 			);
 
 			response.data.forEach((element) => {
@@ -197,8 +246,10 @@ class Sales extends Component {
 											}}
 											value={selectedYear}
 											onChange={this.handleChangeSelctedYear}>
-											{years.map((year) => (
-												<option value={year}>{year}</option>
+											{years.map((year, index) => (
+												<option value={year} key={index}>
+													{year}
+												</option>
 											))}
 										</select>
 									) : (
@@ -250,28 +301,19 @@ class Sales extends Component {
 										}}>
 										Recipe :
 									</p>
-									{this.state.recipeYear || this.state.recipeMonth ? (
-										<p
-											style={{
-												fontFamily: 'serif',
-												fontSize: 25,
-												marginLeft: 10,
-											}}>
-											{' '}
-											{this.state.selectValue == 'year'
-												? this.state.recipeYear
-												: this.state.recipeMonth}
-										</p>
-									) : (
-										<p
-											style={{
-												fontFamily: 'serif',
-												fontSize: 25,
-												marginLeft: 10,
-											}}>
-											0 DTN
-										</p>
-									)}
+
+									<p
+										style={{
+											fontFamily: 'serif',
+											fontSize: 25,
+											marginLeft: 10,
+										}}>
+										{' '}
+										{this.state.selectValue == 'year'
+											? this.state.recipeYear
+											: this.state.recipeMonth}{' '}
+										DT
+									</p>
 								</div>
 							</div>
 						)}
@@ -294,3 +336,156 @@ class Sales extends Component {
 export default withTranslation()(
 	withStyles(styles, { withTheme: true })(withRouter(Sales))
 );
+// import React, { useState, useEffect } from 'react';
+// import { withStyles } from '@material-ui/core/styles';
+// import { Button } from '@material-ui/core';
+// import { FusePageCarded } from '@fuse';
+// import TableHeader from '../sharedComponent/TableHeader';
+// import { withRouter } from 'react-router-dom';
+// import { withTranslation } from 'react-i18next';
+// import env from '../../static';
+// import SalesTable from './SalesTable';
+// import { FuseChipSelect } from '@fuse';
+// import Request from '../../utils/Request';
+// import DatePicker from 'react-datepicker';
+// import 'react-datepicker/dist/react-datepicker.css';
+// import './picker.css';
+import { Alert } from '@material-ui/lab/Alert';
+
+// const styles = (theme) => ({
+// 	layoutRoot: {},
+// });
+
+// const months = [
+// 	{ label: 'January', value: 1 },
+// 	{ label: 'February', value: 2 },
+// 	{ label: 'March', value: 3 },
+// 	{ label: 'April', value: 4 },
+// 	{ label: 'May', value: 5 },
+// 	{ label: 'June', value: 6 },
+// 	{ label: 'July', value: 7 },
+// 	{ label: 'August', value: 8 },
+// 	{ label: 'September', value: 9 },
+// 	{ label: 'October', value: 10 },
+// 	{ label: 'November', value: 11 },
+// 	{ label: 'December', value: 12 },
+// ];
+
+// const Sales = ({ classes, t, history }) => {
+// 	const request = new Request();
+
+// 	const [selectValue, setSelectValue] = useState('year');
+// 	const [recipeYear, setRecipeYear] = useState('');
+// 	const [recipeMonth, setRecipeMonth] = useState('');
+// 	const [recipeQuarter, setRecipeQuarter] = useState('');
+// 	const [yearSection, setYearSection] = useState(new Date().getFullYear());
+// 	const [selectedMonth, setSelectedMonth] = useState(1);
+// 	const [startDate, setStartDate] = useState(new Date());
+// 	const [currentYear] = useState(new Date().getFullYear());
+// 	const [twoYearsFromNow] = useState(new Date().getFullYear() - 2);
+// 	const [oneYearsFromNow] = useState(new Date().getFullYear() - 1);
+// 	const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+// 	const [recipeDays, setRecipeDays] = useState('');
+// 	const [showRecipe, setShowRecipe] = useState(false);
+
+// 	useEffect(() => {
+// 		(async () => {
+// 			try {
+// 				const result = await request.getAll(
+// 					`https://api.gesteasyapp.com/outputs/yearly_recipe?year=${selectedYear}`
+// 				);
+// 				console.log(
+// 					'🚀 ~ file: Sales.js:84 ~ Sales ~ componentDidUpdate ~ this.state.selectedYear',
+// 					selectedYear
+// 				);
+// 				result.data.forEach((element) => {
+// 					setRecipeYear(element['Total Recipe']);
+// 				});
+// 				const response = await request.getAll(
+// 					`https://api.gesteasyapp.com/outputs/monthly_recipe?year=${selectedYear}&month=${selectedMonth}`
+// 				);
+// 				response.data.forEach((el) => {
+// 					setRecipeMonth(el['Total Recipe']);
+// 				});
+// 				const res = await request.getAll(
+// 					`https://api.gesteasyapp.com/outputs/quarterly_recipe?year=${selectedYear}`
+// 				);
+// 				res.data.forEach((el) => {
+// 					setRecipeQuarter(el['Total Recipe']);
+// 				});
+// 			} catch (error) {
+// 				console.log(
+// 					'🚀 ~ file: Sales.js:85 ~ Sales ~ componentDidUpdate ~ error',
+// 					error
+// 				);
+// 			}
+// 		})();
+// 	}, [selectedYear, selectedMonth, request]);
+
+// 	const handleChangeDate = (date) => {
+// 		setStartDate(date);
+// 	};
+
+// 	const handleChangeSelctedYear = (event) => {
+// 		setSelectedYear(event.target.value);
+// 	};
+
+// 	const getInitialState = () => {
+// 		return { selectValue: 'Radish' };
+// 	};
+
+// 	const handleChangeMonth = (event) => {
+// 		setSelectedMonth(event.target.value);
+// 	};
+
+// 	const handelClickRecipi = () => {
+// 		setShowRecipe(true);
+// 	};
+
+// 	const handleChange = (e) => {
+// 		setSelectValue(e.target.value);
+// 	};
+
+// 	const handleChangeYearSection = (e) => {
+// 		setYearSection(e.target.value);
+// 	};
+
+// 	return (
+// 		<div className={classes.layoutRoot}>
+// 			<FusePageCarded
+// 				header={
+// 					<TableHeader
+// 						t={t}
+// 						selectValue={selectValue}
+// 						years={[currentYear, oneYearsFromNow, twoYearsFromNow, yearSection]}
+// 						months={months}
+// 						selectedMonth={selectedMonth}
+// 						selectedYear={selectedYear}
+// 						handleChangeYearSection={handleChangeYearSection}
+// 						handleChangeMonth={handleChangeMonth}
+// 						handleChangeSelctedYear={handleChangeSelctedYear}
+// 						handleChange={handleChange}
+// 					/>
+// 				}
+// 				content={
+// 					<SalesTable
+// 						t={t}
+// 						selectValue={selectValue}
+// 						startDate={startDate}
+// 						handleChangeDate={handleChangeDate}
+// 						recipeYear={recipeYear}
+// 						recipeMonth={recipeMonth}
+// 						recipeQuarter={recipeQuarter}
+// 						recipeDays={recipeDays}
+// 						showRecipe={showRecipe}
+// 					/>
+// 				}
+// 				innerScroll
+// 			/>
+// 		</div>
+// 	);
+// };
+
+// export default withTranslation('translation')(
+// 	withStyles(styles, { withTheme: true })(withRouter(Sales))
+// );

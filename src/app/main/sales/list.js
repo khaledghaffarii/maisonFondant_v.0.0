@@ -95,6 +95,10 @@ const List = (props) => {
 			// 	clonListFunctionGlobal(i, props.value[i]);
 			// }
 		}
+		console.log(
+			'🚀 ~ file: list.js:159 ~ useeffect ~ props.suggestionsList',
+			props.suggestionsList
+		);
 		sommePriceTotal();
 
 		//console.log(props);
@@ -156,14 +160,13 @@ const List = (props) => {
 		if (remove[index]) {
 			let listDeleteProductUpdate = [...props.suggestionsList];
 
-			listDeleteProductUpdate.push(remove[index]);
+			listDeleteProductUpdate.push({
+				key: remove[index].product_id,
+				value: remove[index].product_id,
+				label: remove[index].name,
+			});
 
-			console.log(
-				'🚀 ~ file: list.js:159 ~ handleRemoveItem ~ props.suggestionsList',
-				props.suggestionsList
-			);
-
-			//props.listProduct(listDeleteProductUpdate);
+			props.listProduct(listDeleteProductUpdate);
 			console.log(
 				'🚀 ~ file: list.js:164 ~ handleRemoveItem ~ listDeleteProductUpdate',
 				listDeleteProductUpdate
@@ -194,6 +197,7 @@ const List = (props) => {
 		<>
 			{listInput.map((data, key) => (
 				<div
+					key={key}
 					style={{
 						display: 'flex',
 						flexDirection: 'row',
