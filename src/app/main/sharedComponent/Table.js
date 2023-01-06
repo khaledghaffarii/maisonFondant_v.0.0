@@ -92,7 +92,7 @@ class Table extends React.Component {
 							},
 					  }
 					: '',
-			props.deleted && props.title != 'Suivi Plannings'
+			props.title != 'Suivi Plannings'
 				? {
 						tooltip: 'Remove All Selected elements',
 						icon: 'delete',
@@ -132,14 +132,15 @@ class Table extends React.Component {
 							}),
 				  }
 				: '',
-			// (rowData) => ({
-			//   icon: "more",
-			//   tooltip: "show more",
-			//   hidden: rowData.length >= 2,
-			//   onClick: (event, rowData) => {
-			//     props.history.push(props.showMore + "/" + rowData[0]._id);
-			//   },
-			// }),
+			props.sales &&
+				((rowData) => ({
+					icon: 'more',
+					tooltip: 'show more',
+					hidden: rowData.length >= 2,
+					onClick: (event, rowData) => {
+						props.history.push(props.showMore + '/' + rowData[0]._id);
+					},
+				})),
 			// {
 			//   icon: "print",
 			//   tooltip: "print",

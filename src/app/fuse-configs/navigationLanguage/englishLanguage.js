@@ -236,11 +236,18 @@ englishLanguage.push(
 		icon: 'show_chart',
 		children: [
 			{
+				id: 'brands-component',
+				title: 'Dashboard',
+				type: 'item',
+				icon: 'money',
+				url: '/recipe',
+			},
+			{
 				id: 'admin-component',
-				title: 'Outputs History',
+				title: 'Outputs Sales',
 				type: 'item',
 				icon: 'supervisor',
-				url: '/Widget2',
+				url: '/sales',
 			},
 			{
 				id: 'state-component',
@@ -264,13 +271,7 @@ englishLanguage.push(
 				icon: 'category',
 				url: '/category',
 			},
-			// {
-			// 	id: 'brands-component',
-			// 	title: 'Recipe',
-			// 	type: 'item',
-			// 	icon: 'money',
-			// 	url: '/recipe',
-			// },
+
 			// {
 			// 	id: 'gammes-component',
 			// 	title: 'Ranges',

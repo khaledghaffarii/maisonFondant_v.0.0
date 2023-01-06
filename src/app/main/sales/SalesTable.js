@@ -90,7 +90,7 @@ class SalesTable extends Component {
 		};
 		this.delete = this.delete.bind(this);
 
-		//this.setStateOnDelete = this.setStateOnDelete.bind(this);
+		this.setStateOnDelete = this.setStateOnDelete.bind(this);
 	}
 	async componentDidMount() {
 		let url = env.outputs.all;
@@ -133,9 +133,9 @@ class SalesTable extends Component {
 
 	async delete(id) {
 		try {
-			const url = env.products.remove(id);
+			const url = env.outputs.remove(id);
 			await this.request.delete(url);
-			this.state.tableRef.current.onQueryChange();
+			//this.state.tableRef.current.onQueryChange();
 
 			this.props.enqueueSnackbar(
 				<Translation>
@@ -145,6 +145,7 @@ class SalesTable extends Component {
 					variant: 'success',
 				}
 			);
+			window.location.reload();
 		} catch (e) {
 			if (e.response) {
 				this.props.enqueueSnackbar(e.response.data.message, {
@@ -162,23 +163,26 @@ class SalesTable extends Component {
 			}
 		}
 	}
-	// setStateOnDelete(data) {
-	// 	this.setState({
-	// 		...this.state,
-	// 		data,
-	// 	});
-	// }
+	setStateOnDelete(data) {
+		this.setState({
+			...this.state,
+			data,
+		});
+	}
 
 	render() {
 		return (
 			<Table
+				sales={true}
 				//deleted={localStorage.getItem('AdminOrTeam') == 'admin' ? false : false}
 				title={this.props.t('Output Sales')}
 				columns={this.state.columns}
 				data={this.state.data}
 				routeEdit='/editSales'
 				delete={this.delete}
+				setStateOnDelete={this.setStateOnDelete}
 				state={this.state}
+				showMore='/detailsSales'
 			/>
 		);
 	}

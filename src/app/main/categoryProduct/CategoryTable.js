@@ -27,7 +27,7 @@ class CategoryTable extends Component {
 		};
 		this.delete = this.delete.bind(this);
 
-		//this.setStateOnDelete = this.setStateOnDelete.bind(this);
+		this.setStateOnDelete = this.setStateOnDelete.bind(this);
 	}
 	async componentDidMount() {
 		let url = env.categories.all;
@@ -43,10 +43,7 @@ class CategoryTable extends Component {
 					name: element.name,
 				});
 			});
-			console.log(
-				'🚀 ~ file: ProductTable.js:91 ~ ProductTable ~ fetchData= ~ dataList',
-				dataList
-			);
+
 			return this.setState({
 				data: dataList,
 			});
@@ -76,8 +73,6 @@ class CategoryTable extends Component {
 		try {
 			const url = env.categories.remove(id);
 			await this.request.delete(url);
-			this.state.tableRef.current.onQueryChange();
-
 			this.props.enqueueSnackbar(
 				<Translation>
 					{(t) => <div>{t('stock.edit.success')}</div>}
@@ -86,11 +81,8 @@ class CategoryTable extends Component {
 					variant: 'success',
 				}
 			);
+			window.location.reload();
 		} catch (e) {
-			console.log(
-				'🚀 ~ file: ProductTable.js:152 ~ ProductTable ~ delete ~ e',
-				e
-			);
 			if (e.response) {
 				this.props.enqueueSnackbar(e.response.data.message, {
 					variant: 'error',
@@ -107,12 +99,12 @@ class CategoryTable extends Component {
 			}
 		}
 	}
-	// setStateOnDelete(data) {
-	// 	this.setState({
-	// 		...this.state,
-	// 		data,
-	// 	});
-	// }
+	setStateOnDelete(data) {
+		this.setState({
+			...this.state,
+			data,
+		});
+	}
 
 	render() {
 		console.log(
@@ -127,7 +119,7 @@ class CategoryTable extends Component {
 				data={this.state.data}
 				routeEdit='/editCategory'
 				delete={this.delete}
-				//setStateOnDelete={this.setStateOnDelete}
+				setStateOnDelete={this.setStateOnDelete}
 				showMore='/deviceDetails'
 				state={this.state}
 			/>

@@ -1,4 +1,5 @@
 import Sales from './Sales';
+import SalesDetails from './SalesDetails';
 import SalesEdit from './SalesEdit';
 import SalesNew from './SalesNew';
 
@@ -20,6 +21,10 @@ export const SalesConfig = {
 		{
 			path: '/editSales/:id',
 			component: SalesEdit,
+		},
+		{
+			path: '/detailsSales/:id',
+			component: SalesDetails,
 		},
 	],
 };

@@ -88,16 +88,23 @@ var frenchLanguage = [];
 frenchLanguage.push(
 	{
 		id: 'configuration-component',
-		title: 'Salse',
+		title: 'Vente',
 		type: 'group',
 		icon: 'show_chart',
 		children: [
 			{
+				id: 'brands-component',
+				title: 'Tableau de bord',
+				type: 'item',
+				icon: 'money',
+				url: '/recipe',
+			},
+			{
 				id: 'admin-component',
-				title: 'Historique des sorties',
+				title: ' Sorties vente',
 				type: 'item',
 				icon: 'supervisor',
-				url: '/Widget2',
+				url: '/sales',
 			},
 			{
 				id: 'state-component',
@@ -121,13 +128,7 @@ frenchLanguage.push(
 				icon: 'category',
 				url: '/category',
 			},
-			// {
-			// 	id: 'brands-component',
-			// 	title: 'Recette',
-			// 	type: 'item',
-			// 	icon: 'money',
-			// 	url: '/recipe',
-			// },
+
 			// {
 			// 	id: 'gammes-component',
 			// 	title: 'Ranges',

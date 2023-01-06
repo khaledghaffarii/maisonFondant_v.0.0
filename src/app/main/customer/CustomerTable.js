@@ -36,6 +36,8 @@ class CustomerTable extends Component {
 			selctedRowlength: 0,
 			tableRef: React.createRef(),
 		};
+		this.delete = this.delete.bind(this);
+		this.setStateOnDelete = this.setStateOnDelete.bind(this);
 	}
 	async componentDidMount() {
 		let url = env.customers.all;
@@ -71,7 +73,42 @@ class CustomerTable extends Component {
 			}
 		}
 	}
-	fetchData = async () => {};
+	async delete(id) {
+		try {
+			const url = env.customers.remove(id);
+			await this.request.delete(url);
+			this.props.enqueueSnackbar(
+				<Translation>
+					{(t) => <div>{t('stock.edit.success')}</div>}
+				</Translation>,
+				{
+					variant: 'success',
+				}
+			);
+			window.location.reload();
+		} catch (e) {
+			if (e.response) {
+				this.props.enqueueSnackbar(e.response.data.message, {
+					variant: 'error',
+				});
+			} else {
+				this.props.enqueueSnackbar(
+					<Translation>
+						{(t) => <div>{t('stock.edit.error')}</div>}
+					</Translation>,
+					{
+						variant: 'error',
+					}
+				);
+			}
+		}
+	}
+	setStateOnDelete(data) {
+		this.setState({
+			...this.state,
+			data,
+		});
+	}
 	render() {
 		return (
 			<Table
@@ -80,6 +117,8 @@ class CustomerTable extends Component {
 				data={this.state.data}
 				routeEdit='/editCustomer'
 				state={this.state}
+				delete={this.delete}
+				setStateOnDelete={this.setStateOnDelete}
 			/>
 		);
 	}

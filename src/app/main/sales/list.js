@@ -158,19 +158,16 @@ const List = (props) => {
 		let remove = [...listInput];
 
 		if (remove[index]) {
-			let listDeleteProductUpdate = [...props.suggestionsList];
+			// let listDeleteProductUpdate = [...props.suggestionsList];
 
-			listDeleteProductUpdate.push({
-				key: remove[index].product_id,
-				value: remove[index].product_id,
-				label: remove[index].name,
-			});
+			// listDeleteProductUpdate.push({
+			// 	key: remove[index].product_id,
+			// 	value: remove[index].product_id,
+			// 	label: remove[index].name,
+			// });
 
-			props.listProduct(listDeleteProductUpdate);
-			console.log(
-				'🚀 ~ file: list.js:164 ~ handleRemoveItem ~ listDeleteProductUpdate',
-				listDeleteProductUpdate
-			);
+			// props.listProduct(listDeleteProductUpdate);
+
 			remove.splice(index, 1);
 			setListInput(remove);
 			contextData.finalList.setFinalList(remove);
@@ -194,7 +191,7 @@ const List = (props) => {
 	};
 
 	return (
-		<>
+		<div>
 			{listInput.map((data, key) => (
 				<div
 					key={key}
@@ -202,6 +199,7 @@ const List = (props) => {
 						display: 'flex',
 						flexDirection: 'row',
 						justifyContent: 'center',
+						width: '110%',
 					}}>
 					<fieldset
 						style={{
@@ -216,7 +214,7 @@ const List = (props) => {
 								flexDirection: 'row',
 								display: 'flex',
 							}}>
-							<div style={{ width: 400 }}>
+							<div style={{ width: 300 }}>
 								<FuseChipSelect
 									className='  mx-16'
 									value={
@@ -252,7 +250,7 @@ const List = (props) => {
 										props.valueKey(key, e);
 										setIndex(key);
 										clonListFunctionGlobal2(key, e);
-										changeListProduct(e);
+										//changeListProduct(e);
 
 										//removeSelected();
 
@@ -390,7 +388,7 @@ const List = (props) => {
 					/>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 };
 export default withTranslation()(List);

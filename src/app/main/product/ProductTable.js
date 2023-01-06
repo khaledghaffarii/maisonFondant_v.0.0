@@ -38,8 +38,7 @@ class ProductTable extends Component {
 			tableRef: React.createRef(),
 		};
 		this.delete = this.delete.bind(this);
-
-		//this.setStateOnDelete = this.setStateOnDelete.bind(this);
+		this.setStateOnDelete = this.setStateOnDelete.bind(this);
 	}
 	async componentDidMount() {
 		let url = env.products.all;
@@ -90,7 +89,7 @@ class ProductTable extends Component {
 		try {
 			const url = env.products.remove(id);
 			await this.request.delete(url);
-			this.state.tableRef.current.onQueryChange();
+			//this.state.tableRef.current.onQueryChange();
 
 			this.props.enqueueSnackbar(
 				<Translation>
@@ -100,7 +99,12 @@ class ProductTable extends Component {
 					variant: 'success',
 				}
 			);
+			window.location.reload();
 		} catch (e) {
+			console.log(
+				'🚀 ~ file: ProductTable.js:104 ~ ProductTable ~ delete ~ e',
+				e
+			);
 			if (e.response) {
 				this.props.enqueueSnackbar(e.response.data.message, {
 					variant: 'error',
@@ -117,12 +121,12 @@ class ProductTable extends Component {
 			}
 		}
 	}
-	// setStateOnDelete(data) {
-	// 	this.setState({
-	// 		...this.state,
-	// 		data,
-	// 	});
-	// }
+	setStateOnDelete(data) {
+		this.setState({
+			...this.state,
+			data,
+		});
+	}
 
 	render() {
 		return (
@@ -133,7 +137,7 @@ class ProductTable extends Component {
 				data={this.state.data}
 				routeEdit='/editProduct'
 				delete={this.delete}
-				//setStateOnDelete={this.setStateOnDelete}
+				setStateOnDelete={this.setStateOnDelete}
 				state={this.state}
 			/>
 		);

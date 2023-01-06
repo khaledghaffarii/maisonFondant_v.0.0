@@ -134,7 +134,10 @@ class ProductNew extends Component {
 					root: classes.layoutRoot,
 				}}
 				header={
-					<FormHeader returnRoute='/brand' title={this.props.t('brind.add')} />
+					<FormHeader
+						returnRoute='/product'
+						title={this.props.t('Add Product')}
+					/>
 				}
 				content={
 					<ProductForm
@@ -142,7 +145,7 @@ class ProductNew extends Component {
 						handleChipChangeCategory={this.handleChipChangeCategory}
 						state={this.state}
 						ButtonText={
-							<Translation>{(t) => <div>{t('brind.add')}</div>}</Translation>
+							<Translation>{(t) => <div>{t('Add Product')}</div>}</Translation>
 						}
 						handleChange={this.handleChange}
 						fileChangedHandler={this.fileChangedHandler}
