@@ -37,12 +37,14 @@ class SalesDetails extends Component {
 		super(props);
 
 		this.state = {
+			id: '',
 			showPdf: false,
+			facture: false,
 			customer_name: '',
 			date: '',
 			customer_adresse: '',
 			totalPay: '',
-			billed: '',
+			billed: true,
 			delivery_note_sent: '',
 			total_paid: '',
 			product: [],
@@ -67,9 +69,14 @@ class SalesDetails extends Component {
 				second: 'numeric',
 			};
 			const date = new Date(response.data.date);
+			console.log(
+				'🚀 ~ file: SalesDetails.js:72 ~ componentDidMount ~ response.data',
+				response.data
+			);
 			const dateFormatter = date.toLocaleDateString('en-US', options);
 
 			this.setState({
+				id: response.data._id,
 				product: response.data.products,
 				customer_name: response.data.customer_name,
 				date: dateFormatter.toString(),
@@ -102,6 +109,7 @@ class SalesDetails extends Component {
 			currency: 'TND',
 			minimumFractionDigits: 3,
 		});
+
 		return (
 			<FusePageCarded
 				classes={{
