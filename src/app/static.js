@@ -38,5 +38,6 @@ module.exports = {
 		year: baseUrl + 'outputs/yearly_recipe?year=2022',
 		month: baseUrl + 'outputs/monthly_recipe?year=2022&month=12',
 		quarter: baseUrl + 'outputs/monthly_recipe?year=2022&quarter=4',
+		total: baseUrl + 'outputs/compute_total',
 	},
 };

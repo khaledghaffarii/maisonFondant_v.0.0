@@ -653,11 +653,6 @@ class SalesForm extends Component {
 											update={props.state.update}
 										/>
 									</div>
-									<div></div>
-									{/* {console.log(
-										'🚀 ~ file: SalesForm.js:220 ~ SalesForm ~ render ~ props.state.productOption',
-										props.state.productOption
-									)} */}
 
 									<Button
 										variant='contained'

@@ -103,15 +103,14 @@ class SalesEdit extends Component {
 				'🚀 ~ file: ProductNew.js:85 ~ ProductNew ~ handleSubmit= ~ err',
 				err
 			);
-			if (e.response) {
-				this.props.enqueueSnackbar(e.response.data.message, {
-					variant: 'error',
-				});
-			} else {
-				this.props.enqueueSnackbar(err.response.data.message, {
-					variant: 'error',
-				});
-			}
+			// if (e.response) {
+			// 	// this.props.enqueueSnackbar(e.response.data.message, {
+			// 	// 	variant: 'error',
+			// 	// });
+			// } else {
+			// 	// this.props.enqueueSnackbar(err.response.data.message, {
+			// 	// 	variant: 'error',
+			// 	// });
 		}
 	};
 	async componentDidMount() {
@@ -176,10 +175,8 @@ class SalesEdit extends Component {
 			// 	productList: responseProduct.data,
 			// });
 		} catch (e) {
-			console.log(
-				'🚀 ~ file: SalesNew.js:117 ~ SalesNew ~ componentDidMount ~ e',
-				e
-			);
+			console.log('🚀 ~ file: SalesEdit.js:178 ~ componentDidMount ~ e', e);
+
 			if (e.response) {
 				this.props.enqueueSnackbar(e.response.data.message, {
 					variant: 'error',

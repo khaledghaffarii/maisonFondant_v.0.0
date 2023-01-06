@@ -49,122 +49,122 @@ class Sales extends Component {
 			showRecipe: false,
 		};
 	}
-	handleChangeDate = (date) => {
-		this.setState({
-			startDate: date,
-		});
-	};
-	handleChangeSelctedYear = async (event) => {
-		try {
-			this.setState({ selectedYear: event.target.value });
+	// handleChangeDate = (date) => {
+	// 	this.setState({
+	// 		startDate: date,
+	// 	});
+	// };
+	// handleChangeSelctedYear = async (event) => {
+	// 	try {
+	// 		this.setState({ selectedYear: event.target.value });
 
-			const result = await this.request.getAll(
-				`https://api.gesteasyapp.com/outputs/yearly_recipe?year=${event.target.value}`
-			);
+	// 		const result = await this.request.getAll(
+	// 			`https://api.gesteasyapp.com/outputs/yearly_recipe?year=${event.target.value}`
+	// 		);
 
-			if (result.data.length > 0) {
-				result.data.forEach((element) => {
-					this.setState({ recipeYear: element['Total Recipe'] });
-				});
-			} else {
-				this.setState({ recipeYear: 0 });
-			}
-			const response = await this.request.getAll(
-				`https://api.gesteasyapp.com/outputs/monthly_recipe?year=${this.state.selectedYear}&month=${this.state.selectedMonth}`
-			);
+	// 		if (result.data.length > 0) {
+	// 			result.data.forEach((element) => {
+	// 				this.setState({ recipeYear: element['Total Recipe'] });
+	// 			});
+	// 		} else {
+	// 			this.setState({ recipeYear: 0 });
+	// 		}
+	// 		const response = await this.request.getAll(
+	// 			`https://api.gesteasyapp.com/outputs/monthly_recipe?year=${this.state.selectedYear}&month=${this.state.selectedMonth}`
+	// 		);
 
-			if (response.data.length > 0) {
-				response.data.forEach((element) => {
-					this.setState({ recipeMonth: element['totalPurchase'] });
-				});
-			} else {
-				this.setState({ recipeMonth: 0 });
-			}
-		} catch (error) {
-			console.log(
-				'🚀 ~ file: Sales.js:72 ~ Sales ~ handleChangeSelctedYear= ~ error',
-				error
-			);
-		}
-	};
-	getInitialState() {
-		return { selectValue: 'Radish' };
-	}
-	handleChangeMonth = async (event) => {
-		this.setState({
-			selectedMonth: event.target.value,
-		});
-		const response = await this.request.getAll(
-			`https://api.gesteasyapp.com/outputs/monthly_recipe?year=${this.state.selectedYear}&month=${event.target.value}`
-		);
-		console.log(
-			'🚀 ~ file: Sales.js:89 ~ Sales ~ handleChangeMonth= ~ response',
-			response
-		);
-		console.log(
-			'🚀 ~ file: Sales.js:89 ~ Sales ~ handleChangeMonth= ~ this.state.selectedYear',
-			this.state.selectedYear
-		);
-		if (response.data.length > 0) {
-			response.data.forEach((element) => {
-				this.setState({ recipeMonth: element['totalPurchase'] });
-			});
-		} else {
-			this.setState({ recipeMonth: 0 });
-		}
-	};
-	handelClickRecipi = () => {
-		this.setState({
-			showRecipe: true,
-		});
-	};
-	handleChange = (e) => {
-		this.setState({ selectValue: e.target.value });
-	};
-	handleChangeYearSection = (e) => {
-		this.setState({ yearSection: e.target.value });
-	};
-	async componentDidMount() {
-		try {
-			const result = await this.request.getAll(
-				`https://api.gesteasyapp.com/outputs/yearly_recipe?year=${this.state.selectedYear}`
-			);
+	// 		if (response.data.length > 0) {
+	// 			response.data.forEach((element) => {
+	// 				this.setState({ recipeMonth: element['totalPurchase'] });
+	// 			});
+	// 		} else {
+	// 			this.setState({ recipeMonth: 0 });
+	// 		}
+	// 	} catch (error) {
+	// 		console.log(
+	// 			'🚀 ~ file: Sales.js:72 ~ Sales ~ handleChangeSelctedYear= ~ error',
+	// 			error
+	// 		);
+	// 	}
+	// };
+	// getInitialState() {
+	// 	return { selectValue: 'Radish' };
+	// }
+	// handleChangeMonth = async (event) => {
+	// 	this.setState({
+	// 		selectedMonth: event.target.value,
+	// 	});
+	// 	const response = await this.request.getAll(
+	// 		`https://api.gesteasyapp.com/outputs/monthly_recipe?year=${this.state.selectedYear}&month=${event.target.value}`
+	// 	);
+	// 	console.log(
+	// 		'🚀 ~ file: Sales.js:89 ~ Sales ~ handleChangeMonth= ~ response',
+	// 		response
+	// 	);
+	// 	console.log(
+	// 		'🚀 ~ file: Sales.js:89 ~ Sales ~ handleChangeMonth= ~ this.state.selectedYear',
+	// 		this.state.selectedYear
+	// 	);
+	// 	if (response.data.length > 0) {
+	// 		response.data.forEach((element) => {
+	// 			this.setState({ recipeMonth: element['totalPurchase'] });
+	// 		});
+	// 	} else {
+	// 		this.setState({ recipeMonth: 0 });
+	// 	}
+	// };
+	// handelClickRecipi = () => {
+	// 	this.setState({
+	// 		showRecipe: true,
+	// 	});
+	// };
+	// handleChange = (e) => {
+	// 	this.setState({ selectValue: e.target.value });
+	// };
+	// handleChangeYearSection = (e) => {
+	// 	this.setState({ yearSection: e.target.value });
+	// };
+	// async componentDidMount() {
+	// 	try {
+	// 		const result = await this.request.getAll(
+	// 			`https://api.gesteasyapp.com/outputs/yearly_recipe?year=${this.state.selectedYear}`
+	// 		);
 
-			if (result.data.length > 0) {
-				result.data.forEach((element) => {
-					this.setState({ recipeYear: element['Total Recipe'] });
-				});
-			} else {
-				this.setState({ recipeYear: 0 });
-			}
-			const response = await this.request.getAll(
-				`https://api.gesteasyapp.com/outputs/monthly_recipe?year=${this.state.selectedYear}&month=${this.state.selectedMonth}`
-			);
-			console.log(
-				'🚀 ~ file: Sales.js:124 ~ Sales ~ componentDidMount ~ this.state.selectedYear',
-				this.state.selectedYear
-			);
+	// 		if (result.data.length > 0) {
+	// 			result.data.forEach((element) => {
+	// 				this.setState({ recipeYear: element['Total Recipe'] });
+	// 			});
+	// 		} else {
+	// 			this.setState({ recipeYear: 0 });
+	// 		}
+	// 		const response = await this.request.getAll(
+	// 			`https://api.gesteasyapp.com/outputs/monthly_recipe?year=${this.state.selectedYear}&month=${this.state.selectedMonth}`
+	// 		);
+	// 		console.log(
+	// 			'🚀 ~ file: Sales.js:124 ~ Sales ~ componentDidMount ~ this.state.selectedYear',
+	// 			this.state.selectedYear
+	// 		);
 
-			response.data.forEach((element) => {
-				this.setState({ recipeMonth: element['totalPurchase'] });
-			});
-			// const query = await this.request.getAll(
-			// 	`http://34.198.216.160:8000/outputs/daily_recipe?date=${formattedDate}`
-			// );
-			// query.data.forEach((element) => {
-			// 	console.log(
-			// 		'🚀 ~ file: Sales.js:104 ~ Sales ~ query.data.forEach ~ element',
-			// 		element
-			// 	);
-			// 	//this.setState({ recipeDays: element['totalPurchase'] });
-			// });
-		} catch (error) {
-			console.log(
-				'🚀 ~ file: Sales.js:36 ~ Sales ~ componentDidMount ~ error',
-				error
-			);
-		}
-	}
+	// 		response.data.forEach((element) => {
+	// 			this.setState({ recipeMonth: element['totalPurchase'] });
+	// 		});
+	// 		// const query = await this.request.getAll(
+	// 		// 	`http://34.198.216.160:8000/outputs/daily_recipe?date=${formattedDate}`
+	// 		// );
+	// 		// query.data.forEach((element) => {
+	// 		// 	console.log(
+	// 		// 		'🚀 ~ file: Sales.js:104 ~ Sales ~ query.data.forEach ~ element',
+	// 		// 		element
+	// 		// 	);
+	// 		// 	//this.setState({ recipeDays: element['totalPurchase'] });
+	// 		// });
+	// 	} catch (error) {
+	// 		console.log(
+	// 			'🚀 ~ file: Sales.js:36 ~ Sales ~ componentDidMount ~ error',
+	// 			error
+	// 		);
+	// 	}
+	// }
 	render() {
 		const { currentYear, twoYearsFromNow, selectedYear, oneYearsFromNow } =
 			this.state;

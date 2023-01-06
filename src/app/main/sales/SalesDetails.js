@@ -255,8 +255,9 @@ class SalesDetails extends Component {
 												</tr>
 											</thead>
 											<tbody>
-												{this.state.product.map((product) => (
+												{this.state.product.map((product, key) => (
 													<tr
+														key={key}
 														style={{
 															border: '1px solid #ddd',
 															padding: '8px',

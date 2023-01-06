@@ -35,9 +35,9 @@ function NavbarLayout1(props) {
 				className='flex flex-row items-center flex-shrink h-64 min-h-64 pl-20 pr-12'>
 				<div className='flex flex-1 pr-8'>{/* <Logo /> */}</div>
 
-				<Hidden mdDown>
+				{/* <Hidden mdDown>
 					<NavbarFoldedToggleButton className='w-40 h-40 p-0' />
-				</Hidden>
+				</Hidden> */}
 
 				<Hidden lgUp>
 					<NavbarMobileToggleButton className='w-40 h-40 p-0'>

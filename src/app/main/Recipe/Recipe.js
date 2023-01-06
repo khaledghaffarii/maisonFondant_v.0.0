@@ -142,7 +142,7 @@ class recipe extends React.Component {
 			this.setState({ selectedYear: event.target.value });
 
 			const result = await this.request.getAll(
-				`https://api.gesteasyapp.com/outputs/yearly_recipe?year=${event.target.value}`
+				`http://34.198.216.160:8000/outputs/yearly_recipe?year=${event.target.value}`
 			);
 
 			if (result.data.length > 0) {
@@ -153,7 +153,7 @@ class recipe extends React.Component {
 				this.setState({ recipeYear: 0 });
 			}
 			const response = await this.request.getAll(
-				`https://api.gesteasyapp.com/outputs/monthly_recipe?year=${this.state.selectedYear}&month=${this.state.selectedMonth}`
+				`http://34.198.216.160:8000/outputs/monthly_recipe?year=${this.state.selectedYear}&month=${this.state.selectedMonth}`
 			);
 
 			if (response.data.length > 0) {
@@ -178,7 +178,7 @@ class recipe extends React.Component {
 			selectedMonth: event.target.value,
 		});
 		const response = await this.request.getAll(
-			`https://api.gesteasyapp.com/outputs/monthly_recipe?year=${this.state.selectedYear}&month=${event.target.value}`
+			`http://34.198.216.160:8000/outputs/monthly_recipe?year=${this.state.selectedYear}&month=${event.target.value}`
 		);
 		console.log(
 			'🚀 ~ file: Sales.js:89 ~ Sales ~ handleChangeMonth= ~ response',
@@ -238,7 +238,7 @@ class recipe extends React.Component {
 	async componentDidMount() {
 		try {
 			const result = await this.request.getAll(
-				`https://api.gesteasyapp.com/outputs/yearly_recipe?year=${this.state.selectedYear}`
+				`http://34.198.216.160:8000/outputs/yearly_recipe?year=${this.state.selectedYear}`
 			);
 
 			if (result.data.length > 0) {
@@ -249,7 +249,7 @@ class recipe extends React.Component {
 				this.setState({ recipeYear: 0 });
 			}
 			const response = await this.request.getAll(
-				`https://api.gesteasyapp.com/outputs/monthly_recipe?year=${this.state.selectedYear}&month=${this.state.selectedMonth}`
+				`http://34.198.216.160:8000/outputs/monthly_recipe?year=${this.state.selectedYear}&month=${this.state.selectedMonth}`
 			);
 			console.log(
 				'🚀 ~ file: Sales.js:124 ~ Sales ~ componentDidMount ~ this.state.selectedYear',
