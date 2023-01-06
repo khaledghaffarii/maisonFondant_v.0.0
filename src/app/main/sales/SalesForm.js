@@ -377,10 +377,7 @@ import Request from '../../utils/Request';
 import Add from '@material-ui/icons/Add';
 import DeleteForever from '@material-ui/icons/DeleteForever';
 import AppContext from 'app/AppContext';
-//import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
-//import { Document, Page } from 'react-pdf';
-
-// import MyDocument from './facture/MyDocument';
+import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 
 class SalesForm extends Component {
 	pdfRef = React.createRef();
@@ -485,7 +482,13 @@ class SalesForm extends Component {
 			quantity: `${item.quantity}`,
 			price: `${item.price}`,
 		}));
-
+		const formattedTotalPrice = contextData.totalPrice.total.toLocaleString(
+			'fr-TN',
+			{
+				style: 'currency',
+				currency: 'TND',
+			}
+		);
 		return (
 			<div className='p-16 sm:p-24 max-w-2xl'>
 				<FuseAnimate animation='transition.expandIn'>
@@ -495,26 +498,6 @@ class SalesForm extends Component {
 							onValid={this.enableButton}
 							onInvalid={this.disableButton}
 							className='flex flex-col  w-full h-full'>
-							{props.state.customer !== '' && (
-								<div>
-									<div style={{ marginBottom: 40 }}>
-										<select
-											value={this.state.selectValue}
-											style={{
-												paddingTop: 10,
-												paddingRight: 20,
-												paddingLeft: 20,
-												paddingBottom: 10,
-												borderRadius: 20,
-											}}
-											onChange={this.handleChangeSelect}>
-											<option value='Quote'>Sales Quote</option>
-											<option value='DeliveryNote'>Delivery Note</option>
-										</select>
-									</div>
-								</div>
-							)}
-
 							<div
 								style={{
 									display: 'flex',
@@ -571,7 +554,7 @@ class SalesForm extends Component {
 													fontSize: 25,
 													textAlign: 'center',
 												}}>
-												<p style={{ marginRight: 10 }}>Total : </p>
+												<p style={{ marginRight: 10 }}>Total TTC: </p>
 
 												<p style={{ color: 'red' }}>
 													{contextData.totalPrice.total &&
@@ -670,7 +653,7 @@ class SalesForm extends Component {
 											update={props.state.update}
 										/>
 									</div>
-
+									<div></div>
 									{/* {console.log(
 										'🚀 ~ file: SalesForm.js:220 ~ SalesForm ~ render ~ props.state.productOption',
 										props.state.productOption

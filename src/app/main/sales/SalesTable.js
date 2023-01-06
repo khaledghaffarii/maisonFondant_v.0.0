@@ -24,7 +24,7 @@ class SalesTable extends Component {
 							{rowData.billed ? (
 								<p style={{ color: 'green' }}>Billed</p>
 							) : (
-								<p style={{ color: 'red' }}>No billed</p>
+								<p style={{ color: 'red' }}>Not billed</p>
 							)}
 						</div>
 					),
